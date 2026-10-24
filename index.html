@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="日拱一卒：一个默认只存在本机的习惯打卡工具。每天勾一下，看得见连续天数、周报与趋势；不注册也能用，不开同步就不上传。">
+<meta name="theme-color" content="#f6f7fb">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>日拱一卒 · 习惯打卡</title>
+<!-- v41 · 报告五-1：分享卡片。微信 / Telegram / 微博抓的都是这几个标签，
+     没有它们分享出去就是一条光秃秃的链接。 -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="日拱一卒">
+<meta property="og:title" content="日拱一卒 · 习惯打卡">
+<meta property="og:description" content="每天勾一下，看得见连续天数与趋势。默认只存在这台设备，不注册也能用，不开同步就不上传。">
+<meta property="og:image" content="assets/icon-512.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="日拱一卒 · 习惯打卡">
+<meta name="twitter:description" content="每天勾一下，看得见连续天数与趋势。默认只存在这台设备。">
+<meta name="twitter:image" content="assets/icon-512.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- 首帧就把深浅色定下来：否则深色模式下会先闪一下白底，地址栏颜色也对不上（v38 · 外部评审 P0-6） -->
+<script>
+(function(){try{
+var s=JSON.parse(localStorage.getItem('rigongyizhu.state')||'{}')||{};
+var t=(s.settings&&s.settings.theme)||'system';
+var qp=new URLSearchParams(location.search).get('theme');if(qp)t=qp;
+if(t==='system')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+if(t!=='dark')t='light';
+document.documentElement.setAttribute('data-theme',t);
+var m=document.querySelector('meta[name="theme-color"]');
+if(m)m.setAttribute('content',t==='dark'?'#12141c':'#f6f7fb');
+}catch(e){}})();
+</script>
+<link rel="stylesheet" href="assets/app.css?v=43">
+<link rel="stylesheet" href="assets/product.css?v=43">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<!-- iOS Safari 不认 SVG 的 apple-touch-icon，单独给一张 180×180 的 PNG（tools/mkicon.cjs 生成）。
+     不写圆角、不留透明：iOS 会自己套圆角遮罩，铺底之后四角也是图标自己的颜色。 -->
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<script defer src="src/app.bundle.js?v=43"></script>
+</head>
+<body>
+
+<a class="skip-link" href="#view">跳到主内容</a>
+
+<div id="app">
+<aside class="p-sidebar" aria-label="应用导航"><div class="p-brand"><img src="assets/icon.svg" alt=""><div><strong>日拱一卒</strong><small>每一天，向前一点</small></div></div><nav class="p-nav-group" aria-label="主要功能"><button class="p-nav-button" data-product="go" data-page="today" data-nav-page="today"><svg class="p-icon" aria-hidden="true"><use href="assets/icons.svg#sun"></use></svg>今日</button><button class="p-nav-button" data-product="go" data-page="habits" data-nav-page="habits"><svg class="p-icon" aria-hidden="true"><use href="assets/icons.svg#squares-four"></use></svg>习惯</button><button class="p-nav-button" data-product="go" data-page="diary" data-nav-page="diary"><svg class="p-icon" aria-hidden="true"><use href="assets/icons.svg#notebook"></use></svg>日记</button><button class="p-nav-button" data-product="go" data-page="grow" data-nav-page="grow"><svg class="p-icon" aria-hidden="true"><use href="assets/icons.svg#chart-bar"></use></svg>回顾</button><button class="p-nav-button" data-product="go" data-page="me" data-nav-page="me"><svg class="p-icon" aria-hidden="true"><use href="assets/icons.svg#user-circle"></use></svg>我的</button></nav><div class="p-nav-label">更多工具</div><nav class="p-nav-group" aria-label="更多工具"><button class="p-nav-button" data-product="go" data-page="todos" data-nav-page="todos"><svg class="p-icon" aria-hidden="true"><use href="assets/icons.svg#check-square"></use></svg>待办</button><button class="p-nav-button" data-product="go" data-page="rooms" data-nav-page="rooms"><svg class="p-icon" aria-hidden="true"><use href="assets/icons.svg#users"></use></svg>房间</button><button class="p-nav-button" data-product="go" data-page="connect" data-nav-page="connect"><svg class="p-icon" aria-hidden="true"><use href="assets/icons.svg#cloud"></use></svg>连接与备份</button></nav><div id="pStorage" data-storage-host></div></aside>
+  <header class="topbar" id="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-left">
+        <div class="p-top-title" id="pPageTitle">今日</div>
+        <div class="t-date" id="tDate">—</div>
+        <div class="t-sub" id="tSub">日拱一卒，功不唐捐</div>
+      </div>
+      <div class="topbar-right">
+        <button class="icon-btn" id="btnTheme" title="切换深色 / 浅色（长按恢复跟随系统）" aria-label="切换深色浅色，长按恢复跟随系统">
+          <span id="themeIco">🌙</span>
+        </button>
+        <button class="icon-btn" id="btnVoice" title="语音打卡" aria-label="语音打卡">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/>
+            <path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/>
+          </svg>
+        </button>
+        <!-- 待办（走查第 5 条）：手机端底部标签只有 5 个，待办原来只能从「我的」进。
+             顶栏加一个图标 + 未完成角标，一次点击可达，桌面端同样受益。 -->
+        <button class="icon-btn" id="btnTodo" title="待办" aria-label="待办">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+          </svg>
+          <i class="badge-n" id="todoBadge" hidden>0</i>
+        </button>
+        <button class="icon-btn" data-product="more" aria-label="更多功能" title="更多功能"><svg class="p-icon" aria-hidden="true"><use href="assets/icons.svg#dots-three"></use></svg></button>
+        <!-- 桌面端把番茄钟从右下角浮动球搬到顶栏：宽屏下浮动球离内容列太远，孤零零挂着 -->
+        <button class="icon-btn pomo-top" id="btnPomoTop" title="番茄钟" aria-label="番茄钟"><svg class="p-icon" aria-hidden="true"><use href="assets/icons.svg#timer"></use></svg><span id="pomoTopTxt"></span></button>
+        <div class="ring" id="ring" role="progressbar" aria-label="今日完成率" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <svg viewBox="0 0 44 44" width="46" height="46" aria-hidden="true">
+            <circle cx="22" cy="22" r="18.5" class="ring-bg"/>
+            <circle cx="22" cy="22" r="18.5" class="ring-fg" id="ringFg"/>
+          </svg>
+          <div class="ring-txt" aria-hidden="true"><span id="ringPct">0</span><i>%</i></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div id="netbar" class="netbar" role="status" aria-live="polite"></div>
+
+  <main id="view" class="view" role="tabpanel" tabindex="-1" aria-label="今日">
+    <!-- 首屏骨架：JS 跑完前先画出今日页的轮廓，避免白屏/跳版。
+         render() 会整体替换 #view，骨架随之消失。 -->
+    <div class="skel" id="skel" aria-hidden="true">
+      <div class="sk">
+        <div class="sk-hero">
+          <div style="flex:1">
+            <div class="sk-line tall w60"></div>
+            <div class="sk-line w45"></div>
+            <div class="sk-line w30"></div>
+          </div>
+          <div class="sk-dot" style="width:46px;height:46px"></div>
+        </div>
+        <div class="sk-bar"></div>
+      </div>
+      <div class="sk-sec"></div>
+      <div class="sk"><div class="sk-row"><div class="sk-dot"></div><div class="sk-col"><div class="sk-line w60"></div><div class="sk-line w30"></div></div></div></div>
+      <div class="sk"><div class="sk-row"><div class="sk-dot"></div><div class="sk-col"><div class="sk-line w75"></div><div class="sk-line w45"></div></div></div></div>
+      <div class="sk"><div class="sk-row"><div class="sk-dot"></div><div class="sk-col"><div class="sk-line w45"></div><div class="sk-line w30"></div></div></div></div>
+    </div>
+  </main>
+
+  <nav class="tabbar" id="tabbar" role="tablist" aria-label="主导航">
+    <button class="tab active" id="tab-today" data-tab="today" role="tab" aria-selected="true" aria-controls="view" tabindex="0" aria-label="今日"><span class="tab-ico" aria-hidden="true"><svg class="p-icon" aria-hidden="true"><use href="assets/icons.svg#sun"></use></svg></span><span class="tab-lb">今日</span></button>
+    <button class="tab" id="tab-habits" data-tab="habits" role="tab" aria-selected="false" aria-controls="view" tabindex="-1" aria-label="习惯"><span class="tab-ico" aria-hidden="true"><svg class="p-icon" aria-hidden="true"><use href="assets/icons.svg#squares-four"></use></svg></span><span class="tab-lb">习惯</span></button>
+    <button class="tab" id="tab-diary" data-tab="diary" role="tab" aria-selected="false" aria-controls="view" tabindex="-1" aria-label="日记"><span class="tab-ico" aria-hidden="true"><svg class="p-icon" aria-hidden="true"><use href="assets/icons.svg#notebook"></use></svg></span><span class="tab-lb">日记</span></button>
+    <button class="tab" id="tab-grow" data-tab="grow" role="tab" aria-selected="false" aria-controls="view" tabindex="-1" aria-label="回顾"><span class="tab-ico" aria-hidden="true"><svg class="p-icon" aria-hidden="true"><use href="assets/icons.svg#chart-bar"></use></svg></span><span class="tab-lb">回顾</span></button>
+    <button class="tab" id="tab-me" data-tab="me" role="tab" aria-selected="false" aria-controls="view" tabindex="-1" aria-label="我的"><span class="tab-ico" aria-hidden="true"><svg class="p-icon" aria-hidden="true"><use href="assets/icons.svg#user-circle"></use></svg></span><span class="tab-lb">我的</span></button>
+    <button class="tab secondary-tab" id="tab-todos" data-tab="todos" role="tab" aria-selected="false" aria-controls="view" tabindex="-1" aria-label="待办"><span class="tab-ico" aria-hidden="true"><svg class="p-icon" aria-hidden="true"><use href="assets/icons.svg#check-square"></use></svg></span><span class="tab-lb">待办</span></button>
+    <button class="tab secondary-tab" id="tab-rooms" data-tab="rooms" role="tab" aria-selected="false" aria-controls="view" tabindex="-1" aria-label="房间"><span class="tab-ico" aria-hidden="true"><svg class="p-icon" aria-hidden="true"><use href="assets/icons.svg#users"></use></svg></span><span class="tab-lb">房间</span></button>
+    <button class="tab secondary-tab" id="tab-connect" data-tab="connect" role="tab" aria-selected="false" aria-controls="view" tabindex="-1" aria-label="连接与备份"><span class="tab-ico" aria-hidden="true"><svg class="p-icon" aria-hidden="true"><use href="assets/icons.svg#cloud"></use></svg></span><span class="tab-lb">连接与备份</span></button>
+  </nav>
+
+  <button class="fab" id="fabPomodoro" title="番茄钟" aria-label="番茄钟">25:00</button>
+</div>
+
+<div class="sheet-mask" id="sheetMask"></div>
+<div class="sheet" id="sheet" aria-hidden="true"><div class="sheet-body" id="sheetBody"></div></div>
+<div class="toast" id="toast"></div>
+<div class="undo-bar" id="undoBar" role="status" aria-live="polite"></div>
+<div class="voice-overlay" id="voiceOverlay">
+  <div class="voice-card">
+    <div class="voice-pulse"></div>
+    <div class="voice-text" id="voiceText">正在聆听…</div>
+    <div class="voice-tip">试试说「跑步 30 分钟」「喝水打卡」</div>
+    <button class="btn ghost" id="voiceCancel">取消</button>
+  </div>
+</div>
+
+<script>
+/* 首屏"抢跑"：这段是普通脚本，会在下面所有 defer 脚本之前执行，
+   先把日期填上，让顶栏第一帧就是完整的样子，而不是一排"—"。 */
+(function () {
+  try {
+    var d = new Date(), W = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+    var el = document.getElementById('tDate');
+    if (el) el.textContent = (d.getMonth() + 1) + '月' + d.getDate() + '日 ' + W[d.getDay()];
+    var sub = document.getElementById('tSub');
+    if (sub) sub.textContent = '正在载入…';
+  } catch (e) { }
+  /* 兜底：万一主脚本出错，也要把骨架撤掉，别让人对着灰条干等 */
+  setTimeout(function () {
+    var s = document.getElementById('skel');
+    if (s && s.parentNode) s.parentNode.removeChild(s);
+  }, 2600);
+})();
+</script>
+<!-- cloud-sdk.js 62KB 与首屏无关，改为首次用云功能时按需加载（见 src/cloud-v18.js loadSdk） -->
+</body>
+</html>
