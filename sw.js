@@ -15,21 +15,27 @@
  * v52：第一分钟（刷新不再闪空态 / 首帧主题 / 隐私口径 / 首屏减卡）。
  * v53：你说了算（新版装好停在 waiting 等用户点刷新 / 色盲模式补形状通道 /
  *      空态恢复入口降为页脚文字链 / 状态条按钮终于点得动）。
+ * v54：少即是多（「我的」页收成 3 个分组 / 首屏拆包：日记·回顾·社交·积分
+ *      拆成 4 个按需 chunk，core 首屏跑完空闲时再拉，离线清单里照常预缓存）。
  */
-const VERSION = 'rigongyizhu-standalone-53';
+const VERSION = 'rigongyizhu-standalone-54';
 const CORE = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './assets/app.css?v=53',
-  './assets/product.css?v=53',
+  './assets/app.css?v=54',
+  './assets/product.css?v=54',
   './assets/icons.svg',
   './assets/icon.svg',
   './assets/icon-192.png',
   './assets/icon-512.png',
   './assets/apple-touch-icon.png',
-  './src/app.bundle.js?v=53',
-  './vendor/cloud-sdk.js?v=53',
+  './src/app.bundle.js?v=54',
+  './src/chunk-diary.js?v=54',
+  './src/chunk-grow.js?v=54',
+  './src/chunk-social.js?v=54',
+  './src/chunk-plus.js?v=54',
+  './vendor/cloud-sdk.js?v=54',
 ];
 
 self.addEventListener('install', (event) => {
