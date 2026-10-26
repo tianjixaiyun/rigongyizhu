@@ -12,21 +12,22 @@
  * v49：断签不可怕（每周休息额度 / 本月完成度 / 断签安抚 / 累计次数）。
  * v50：提醒会闭嘴（学会闭嘴 / 年度型排程 / 一句人话）。
  * v51：别让今天白过（部分完成 / 每月休息额度 / 日历导出 / 打印打卡纸）。
+ * v52：第一分钟（刷新不再闪空态 / 首帧主题 / 隐私口径 / 首屏减卡）。
  */
-const VERSION = 'rigongyizhu-standalone-51';
+const VERSION = 'rigongyizhu-standalone-52';
 const CORE = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './assets/app.css?v=51',
-  './assets/product.css?v=51',
+  './assets/app.css?v=52',
+  './assets/product.css?v=52',
   './assets/icons.svg',
   './assets/icon.svg',
   './assets/icon-192.png',
   './assets/icon-512.png',
   './assets/apple-touch-icon.png',
-  './src/app.bundle.js?v=51',
-  './vendor/cloud-sdk.js?v=51',
+  './src/app.bundle.js?v=52',
+  './vendor/cloud-sdk.js?v=52',
 ];
 
 self.addEventListener('install', (event) => {

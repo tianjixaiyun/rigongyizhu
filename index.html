@@ -21,11 +21,16 @@
 <meta name="twitter:description" content="每天勾一下，看得见连续天数与趋势。不用注册、数据只存在这台设备、断网也能打卡。">
 <meta name="twitter:image" content="assets/icon-512.png">
 <link rel="manifest" href="manifest.webmanifest">
-<!-- 首帧就把深浅色定下来：否则深色模式下会先闪一下白底，地址栏颜色也对不上（v38 · 外部评审 P0-6） -->
+<!-- 首帧就把深浅色定下来：否则深色模式下会先闪一下白底，地址栏颜色也对不上（v38 · 外部评审 P0-6）。
+     v52 · 报告 P0-3：这段跑在所有 defer 脚本之前，此时 IndexedDB 还没打开，
+     所以只能读 localStorage。而 state 早已迁到 IDB 并从 localStorage 删掉了 ——
+     以前读 'rigongyizhu.state' 等于永远读不到，手选主题的人每次冷启动都会闪一下。
+     现在按 rgz.theme（主）→ rigongyizhu.state（老用户兜底）→ system 的顺序读，
+     applyTheme() 每次都会把 rgz.theme 写回去。 -->
 <script>
 (function(){try{
-var s=JSON.parse(localStorage.getItem('rigongyizhu.state')||'{}')||{};
-var t=(s.settings&&s.settings.theme)||'system';
+var t=localStorage.getItem('rgz.theme');
+if(!t){var s=JSON.parse(localStorage.getItem('rigongyizhu.state')||'{}')||{};t=(s.settings&&s.settings.theme)||'system';}
 var qp=new URLSearchParams(location.search).get('theme');if(qp)t=qp;
 if(t==='system')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
 if(t!=='dark')t='light';
@@ -34,13 +39,13 @@ var m=document.querySelector('meta[name="theme-color"]');
 if(m)m.setAttribute('content',t==='dark'?'#12141c':'#f6f7fb');
 }catch(e){}})();
 </script>
-<link rel="stylesheet" href="assets/app.css?v=51">
-<link rel="stylesheet" href="assets/product.css?v=51">
+<link rel="stylesheet" href="assets/app.css?v=52">
+<link rel="stylesheet" href="assets/product.css?v=52">
 <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
 <!-- iOS Safari 不认 SVG 的 apple-touch-icon，单独给一张 180×180 的 PNG（tools/mkicon.cjs 生成）。
      不写圆角、不留透明：iOS 会自己套圆角遮罩，铺底之后四角也是图标自己的颜色。 -->
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<script defer src="src/app.bundle.js?v=51"></script>
+<script defer src="src/app.bundle.js?v=52"></script>
 </head>
 <body>
 
