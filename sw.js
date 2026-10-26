@@ -7,21 +7,22 @@
  * 3. 只管同源；云后端（workbuddy.host）等跨域请求原样放行。
  *
  * v45：版本号随发布升到 45；导航兜底同时命中 './' 与 './index.html' 两个键。
+ * v47：健康数据自动勾选。
  */
-const VERSION = 'rigongyizhu-standalone-46';
+const VERSION = 'rigongyizhu-standalone-47';
 const CORE = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './assets/app.css?v=46',
-  './assets/product.css?v=46',
+  './assets/app.css?v=47',
+  './assets/product.css?v=47',
   './assets/icons.svg',
   './assets/icon.svg',
   './assets/icon-192.png',
   './assets/icon-512.png',
   './assets/apple-touch-icon.png',
-  './src/app.bundle.js?v=46',
-  './vendor/cloud-sdk.js?v=46',
+  './src/app.bundle.js?v=47',
+  './vendor/cloud-sdk.js?v=47',
 ];
 
 self.addEventListener('install', (event) => {
