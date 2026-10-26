@@ -1,0 +1,461 @@
+/* v17 · 产品界面。沿用应用品牌色，不依赖在线字体或运行时组件库。 */
+:root{--bg:#f6f7f9;--bg-2:#edf0f5;--card:#fff;--line:#e7eaf0;--txt:#202738;--txt-2:#5d6779;--txt-3:#5f6478;--accent:#3c5bcc;--accent-fill:#3c5bcc;--accent-soft:#edf1ff;--ok:#15803d;--ok-fill:#12864f;--warn:#b45309;--danger:#c2410c;--sh-1:0 2px 8px rgba(29,42,68,.025);--r-lg:18px;--grad-1:linear-gradient(var(--accent),var(--accent));--grad-2:linear-gradient(var(--accent),var(--accent))}
+html[data-theme=dark]{--bg:#13171f;--bg-2:#1b202b;--card:#1c222d;--card-2:#202734;--line:#2d3543;--txt:#edf0f8;--txt-2:#adb7ca;--txt-3:#8b93ab;--accent:#8ba4ff;--accent-fill:#3c5bcc;--accent-soft:#29334e;--ok:#3ecf7a;--ok-fill:#12864f;--warn:#fbbf24;--danger:#f87171;--sh-1:none}
+body{background:var(--bg);font-size:15px;line-height:1.6}
+body::before{content:none}
+@media(hover:hover){.card:hover,.hitem:hover,.bundle:hover,.stat:hover{transform:none;box-shadow:none}}
+button:disabled{cursor:not-allowed;opacity:.45}
+.p-icon{width:21px;height:21px;flex:0 0 auto;fill:currentColor;vertical-align:middle}
+/* 标题 / 按钮里的行内图标：跟文字同色，基线对齐，不抢注意力 */
+.i-inline{width:17px;height:17px;vertical-align:-3px;margin-right:6px;flex:0 0 auto}
+.sec-title h3 .i-inline,.ch-card-title h3 .i-inline{color:var(--accent)}
+.btn .i-inline,.line-cell .cell-ico .p-icon{color:inherit;margin-right:0}
+.p-sidebar{display:none}
+#app{box-shadow:none;background:var(--bg);padding-bottom:calc(80px + var(--safe-b))}
+.topbar,html[data-theme=dark] .topbar{background:var(--bg);border-bottom:1px solid var(--line);padding:calc(14px + env(safe-area-inset-top,0px)) 20px 14px}
+.topbar-inner{min-width:0;gap:8px}
+.t-date{font-size:13px;font-weight:500;color:var(--txt-2)}
+.p-top-title{font-size:18px;font-weight:700;line-height:1.3;margin-bottom:3px}
+.t-sub,.topbar .t-tags,.topbar .ring{display:none}
+.topbar-right{gap:7px}
+/* 番茄钟顶栏按钮只在宽屏出现（见下方 min-width:1050 断点） */
+.icon-btn.pomo-top{display:none}
+.icon-btn,.icon-btn.sm{width:36px;height:36px;border-radius:10px;box-shadow:none;border:1px solid var(--line);background:var(--card)}
+#btnVoice{display:none}
+.view{padding:24px 20px 36px;animation:none}
+.view.has-fab{padding-bottom:100px}
+.card,.hitem,.bundle{box-shadow:none;border:1px solid var(--line);background:var(--card);backdrop-filter:none}
+.card::before,.card::after{content:none}
+.btn{border-radius:12px;min-height:44px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:7px;box-shadow:none;background:var(--accent-fill)}
+.btn.ghost{background:var(--card);border:1px solid var(--line);color:var(--txt-2)}
+.btn.sm{min-height:34px}
+.btn.danger{background:var(--danger);color:white}
+html[data-theme=dark] .btn.danger{color:#13171f}
+.sec-title h3{font-size:15px}
+.p-eyebrow{color:var(--txt-3);font-size:12px;font-weight:500;margin:0 0 8px;letter-spacing:.03em}
+.p-page-heading{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:25px}
+.p-page-heading h1{font-size:28px;line-height:1.35;font-weight:700;letter-spacing:-.6px}
+.p-intro{font-size:13px;color:var(--txt-2);margin:9px 0 0}
+.p-new{white-space:nowrap;flex-shrink:0}
+.p-overview{display:grid;gap:14px;margin-bottom:28px}
+.p-progress-card,.p-week-card,.p-chart-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:23px}
+.p-progress-card{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.p-progress-card h2{font-size:40px;line-height:1.2;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+.p-progress-card h2>span{font-size:16px;color:var(--txt-3);font-weight:500;letter-spacing:0}
+.p-progress-card p{margin:12px 0 0;color:var(--txt-2);font-size:12px}
+/* 「连续」口径芯片：紧跟今日进度，回答"我到底连续了几天" */
+.p-streak-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:12px}
+.p-dial{width:100px;height:100px;border-radius:50%;background:conic-gradient(var(--accent) var(--progress),var(--bg-2) 0);padding:8px;flex-shrink:0}
+.p-dial strong{display:flex;justify-content:center;align-items:center;border-radius:50%;width:100%;height:100%;background:var(--card);font-size:25px;font-weight:700;font-variant-numeric:tabular-nums}
+.p-dial small{font-size:12px;color:var(--txt-3);margin-left:2px}
+.p-card-title{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.p-card-title h3{font-size:14px;font-weight:600}
+.p-card-title>span{font-size:12px;color:var(--txt-3)}
+.p-week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px;margin-top:15px}
+.p-day{display:flex;align-items:center;flex-direction:column;gap:3px;padding:7px 2px;border:1px solid transparent;border-radius:11px;color:var(--txt-2);min-height:76px}
+.p-day>span{font-size:12px}.p-day>b{font-size:17px;font-weight:600;font-variant-numeric:tabular-nums}
+.p-day.current{background:var(--accent-soft);color:var(--accent);border-color:color-mix(in srgb,var(--accent) 12%,transparent)}
+.p-day-dot{width:4px;height:4px;border-radius:50%;background:var(--line);margin-top:3px}.p-day-dot.filled{background:var(--accent)}
+.p-week-summary{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:13px;margin-top:13px;font-size:12px;color:var(--txt-2)}
+.p-week-summary b{color:var(--txt);font-weight:600}
+.p-text-button{display:inline-flex;align-items:center;gap:5px;color:var(--accent);font-size:12px;padding:4px 0;min-height:30px;white-space:nowrap}
+.p-text-button .p-icon{width:15px;height:15px}
+/* v26 · 今日页唯一的视图入口：原来是 12×30 的一枚「⋯」，几乎点不中。
+   视觉仍是一枚小按钮，但可视盒子本身给到 44×44，不再依赖看不见的热区。 */
+.p-tools-btn{width:44px;height:44px;min-height:44px;padding:0;justify-content:center;border-radius:12px}
+.p-list-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px}.p-list-heading h2{font-size:19px;font-weight:650}
+.p-tools{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
+.p-segments{display:inline-flex;background:var(--bg-2);padding:4px;border-radius:11px;gap:3px}
+.p-segments button{font-size:12px;padding:7px 10px;border-radius:8px;color:var(--txt-2);min-height:34px;white-space:nowrap}
+.p-segments button.selected{background:var(--card);color:var(--txt);box-shadow:var(--sh-1);font-weight:600}
+.p-segments button>span{color:var(--txt-3);font-size:12px;margin-left:2px}
+.p-search{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:10px;padding:8px 11px;background:var(--card);color:var(--txt-3);min-width:0;flex:1;max-width:245px}
+.p-search .p-icon{width:17px;height:17px}.p-search input{min-width:0;width:100%;border:0;outline:none;background:transparent;font-size:12px;line-height:24px}
+.p-search:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.p-search-wide{max-width:none;margin-bottom:20px}
+.p-quick-create{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:14px 17px;margin-bottom:22px;color:var(--txt-2);font-size:13px}.p-quick-create summary{cursor:pointer}.p-quick-create .card{border:none;padding:10px 0 0;margin:0}.p-quick-create .notice{margin:0}
+.p-advanced{border-top:1px solid var(--line);padding:16px 0;margin-top:10px}.p-advanced summary{font-size:13px;color:var(--txt-2);cursor:pointer;margin-bottom:12px}.p-form-actions{position:sticky;bottom:-1px;background:var(--bg);padding:14px 0 5px;z-index:3;border-top:1px solid var(--line)}
+.list{gap:10px;grid-template-columns:minmax(0,1fr)}
+.p-list-actions{display:flex;gap:16px;align-items:center}.p-mobile-storage{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:0 16px;margin-bottom:18px}
+.hitem{border-radius:14px;position:relative;overflow:hidden}
+.hitem>.h-sw-body{padding:18px 17px;gap:14px}
+.hitem::before{content:none}.hitem.done{opacity:1;background:var(--card)}
+.p-habit-icon{display:grid;place-items:center;width:42px;height:42px;border-radius:12px;flex:0 0 auto;background:color-mix(in srgb,var(--c) 10%,var(--card));color:var(--c)}
+.p-habit-icon .p-icon{width:23px;height:23px}
+.h-main{min-width:0;flex:1}.h-name{font-size:15px;font-weight:650;line-height:1.5;overflow-wrap:anywhere;display:block}
+.h-name>.muted:last-child{display:none}.h-meta{font-size:15px;line-height:1.5;margin-top:3px;color:var(--txt-3);gap:10px}.h-meta>span{white-space:nowrap}.h-meta .m-week,.h-meta .m-days,.h-meta .m-interval,.h-meta .m-score{color:var(--txt-3)}
+.h-narrow-add{display:none;width:44px;height:44px;border-radius:12px;background:var(--accent-fill);color:#fff;font-size:20px;font-weight:700;align-items:center;justify-content:center;flex-shrink:0}
+.h-narrow-add:active{transform:scale(.96)}
+.h-trend{font-size:15px;margin-top:5px;gap:10px}.h-trend .tr-rate{color:var(--txt-3)}
+.hitem .h-ctl{flex-shrink:0;margin-left:auto}.tick{border-radius:50%;border:1.5px solid var(--line);box-shadow:none;background:var(--card)}
+.hitem.done .tick{background:var(--c);border-color:var(--c)}
+.h-bar{height:4px;margin-top:10px;background:var(--bg-2)}
+.p-habit-menu{width:44px;height:44px;flex-shrink:0;color:var(--txt-3);border-radius:12px;padding:0;display:flex;align-items:center;justify-content:center}.p-habit-menu .p-icon{width:19px;height:19px}
+.p-habit-menu:hover{background:var(--bg-2);color:var(--txt)}
+.stepper{background:var(--bg-2);border-radius:10px}.stepper .val{font-size:14px;min-width:43px}
+.p-empty-result{text-align:center;padding:40px 16px;border:1px dashed var(--line);border-radius:16px;background:var(--card)}
+.p-empty-result>.p-icon{width:28px;height:28px;color:var(--accent);margin-bottom:10px}.p-empty-result h3{font-size:16px}.p-empty-result p{font-size:13px;color:var(--txt-3);margin:8px 0 16px}
+.p-shortcuts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:20px 0}
+.p-shortcuts>button{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:16px;font-size:13px;color:var(--txt-2);text-align:left}
+.p-shortcuts>button .p-icon:first-child{color:var(--accent)}.p-shortcuts>button .p-icon:last-child{margin-left:auto;width:15px}
+.p-more-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:15px 0}.p-more-grid button{display:flex;gap:12px;align-items:center;min-height:70px;padding:15px;border-radius:12px;border:1px solid var(--line);background:var(--card);font-size:14px}.p-more-grid .p-icon{color:var(--accent)}
+.p-review-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:20px}.p-review-summary>div{padding:22px;border:1px solid var(--line);border-radius:16px;background:var(--card)}
+.p-review-summary span{font-size:12px;color:var(--txt-2)}.p-review-summary b{display:block;font-size:34px;font-weight:650;margin:8px 0;line-height:1.3;font-variant-numeric:tabular-nums}.p-review-summary small{font-size:14px;color:var(--txt-3);font-weight:400}.p-review-summary p{font-size:12px;color:var(--txt-3);margin:0}
+.p-bars{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:15px;margin:25px 0 0}.p-bar-column{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0;color:var(--txt-2)}.p-bar-column>span{font-size:12px;font-variant-numeric:tabular-nums}.p-bar-column>small{font-size:12px}
+.p-bar-track{height:130px;width:100%;max-width:48px;border-radius:7px;background:var(--bg-2);position:relative;overflow:hidden}.p-bar-track>i{position:absolute;left:0;right:0;bottom:0;background:var(--accent);border-radius:6px;min-height:0}
+.p-storage-status{display:flex;align-items:center;gap:9px;text-align:left;padding:12px 0;color:var(--txt-2);font-size:12px;width:100%}.p-storage-status>.p-icon{color:var(--ok);width:18px}.p-storage-status small{display:block;color:var(--txt-3);font-size:12px;margin-top:2px}.p-storage-status.error,.p-storage-status.error>.p-icon{color:var(--danger)}
+.p-storage-panel p{font-size:13px;color:var(--txt-2)}
+.tabbar{padding:6px 10px calc(5px + var(--safe-b));gap:4px;background:var(--card);box-shadow:none;border-radius:18px 18px 0 0}
+.tabbar .secondary-tab{display:none}.tab{min-height:52px;gap:5px;font-size:12px;padding:7px 3px;min-width:0}.tab-ico{height:23px;font-size:0}.tab-ico .p-icon{width:23px;height:23px}.tab.active{background:var(--accent-soft);border-radius:11px;font-weight:600}
+.longpress-hint{display:none}.sheet{background:var(--bg);box-shadow:var(--sh-2)}.sheet h3{font-size:19px}.sheet-body{padding:8px 22px 26px}
+.fab{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 4px 18px color-mix(in srgb,var(--accent) 20%,transparent);width:54px;height:54px;bottom:calc(90px + var(--safe-b));right:max(20px,calc((100vw - 780px)/2 + 20px))}
+/* 深色 FAB 用亮蓝底 + 深字：白字在 #8ba4ff 上只有 2.37:1 */
+html[data-theme=dark] .fab{color:#13171f}
+.quote,.notice{background:var(--card);border:1px solid var(--line);box-shadow:none}.notice{font-size:12px}.quote::before,.quote::after{content:none}
+@media(min-width:680px){.p-overview{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr)}.p-progress-card{padding:23px}.p-dial{width:86px;height:86px}
+  /* v24 · 断点缺口（评审 4.8）：521–1049 px 之间侧栏还没出，主列又被拉满（768px 下卡片约 730px，
+     标题在最左、勾选在最右，中间一大片空）。这里把主列钉在中栏，等 1050px 侧栏接管。 */
+  .topbar-inner{max-width:720px;margin:0 auto;padding:0 20px}.view{max-width:720px;margin:0 auto}
+  .fab{right:max(20px,calc((100vw - 720px)/2 + 20px))}
+  .sheet{max-width:720px;margin:0 auto}}
+@media(min-width:1050px){
+  .p-sidebar{display:flex;position:fixed;inset:0 auto 0 0;width:230px;background:var(--card);border-right:1px solid var(--line);padding:30px 18px;flex-direction:column;z-index:42;overflow:auto}
+  .p-brand{display:flex;gap:11px;align-items:center;padding:0 12px 28px}.p-brand img{width:39px;height:39px;border-radius:11px}.p-brand strong{font-size:18px;font-weight:700;letter-spacing:.02em}.p-brand small{display:block;font-size:12px;color:var(--txt-3);margin-top:2px}
+  .p-nav-group{display:flex;flex-direction:column;gap:5px}.p-nav-label{font-size:12px;color:var(--txt-3);letter-spacing:.12em;padding:25px 15px 9px}
+  .p-nav-button{display:flex;align-items:center;gap:12px;min-height:48px;text-align:left;padding:12px 15px;font-size:14px;color:var(--txt-2);border-radius:11px}.p-nav-button.active{background:var(--accent-soft);color:var(--accent);font-weight:600}.p-nav-button:hover{background:var(--bg-2)}.p-nav-button.active:hover{background:var(--accent-soft)}
+  #pStorage{margin-top:auto;border-top:1px solid var(--line);padding:13px 8px 0}.p-mobile-storage{display:none}
+  #app{margin-left:230px;max-width:none;min-height:100dvh;width:calc(100% - 230px);padding-bottom:20px}
+  .topbar{padding:22px 40px;position:sticky}.topbar-inner{max-width:760px;margin:0 auto;padding:0 28px}.view{max-width:760px;margin:0 auto}.topbar .t-date{font-size:12px}.p-top-title{font-size:14px}.view{padding:30px 28px 50px}.tabbar{display:none}
+  .p-page-heading h1{font-size:30px}.p-overview{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:18px}.p-progress-card,.p-week-card{padding:25px}.p-dial{width:108px;height:108px}.p-dial strong{font-size:28px}
+  .fab{right:30px;bottom:28px;display:none}.view.has-fab{padding-bottom:100px}.sheet{left:230px;right:0;max-width:760px;border-radius:20px;bottom:50%;transform:translateY(calc(50% + 120vh));max-height:85dvh}.sheet.on{transform:translateY(50%)}
+  /* 桌面端番茄钟进顶栏：宽屏下浮动球离内容列太远，孤零零挂在右下角 */
+  .icon-btn.pomo-top{display:inline-flex;width:auto;min-width:44px;height:34px;padding:0 10px;gap:6px;align-items:center;font-size:12px;font-variant-numeric:tabular-nums}
+  .icon-btn.pomo-top:empty span,.icon-btn.pomo-top span:empty{display:none}
+  .p-habit-section+.sec-title{display:none}
+}
+@media(max-width:520px){.view{padding:22px 15px 32px}.topbar{padding-left:16px;padding-right:16px}.topbar-right{gap:5px}.icon-btn,.icon-btn.sm{width:32px;height:34px}.icon-btn .badge-n{top:1px;right:-1px}#btnTheme{display:none}.p-page-heading{align-items:flex-start;gap:9px}.p-page-heading h1{font-size:23px}.p-eyebrow{font-size:12px}.p-page-heading .btn{min-height:44px}.p-page-heading .btn .p-icon{width:16px;height:16px}.p-intro{font-size:12px;max-width:230px}.p-progress-card,.p-week-card,.p-chart-card{padding:19px}.p-overview{gap:10px}.p-progress-card h2{font-size:35px}.p-dial{width:86px;height:86px}.p-tools{gap:10px}.p-search{max-width:none;flex-basis:100%;padding:7px 11px}.p-search input{font-size:16px}.p-segments{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.p-segments button{padding:6px 9px}.hitem>.h-sw-body{padding:10px 12px;gap:10px}.p-habit-icon{width:34px;height:36px;border-radius:10px}.p-habit-icon .p-icon{width:20px;height:20px}.h-name{font-size:14px}.h-meta{font-size:15px;gap:6px}.h-trend{gap:8px}.h-trend .dots,.h-trend .tr-best{display:none}.p-habit-menu{width:44px;padding:0}.stepper .val{min-width:35px;font-size:13px}.p-shortcuts{gap:7px}.p-shortcuts>button{padding:13px 9px;gap:6px;font-size:12px;flex-direction:column;text-align:center}.p-shortcuts>button .p-icon:last-child{display:none}.p-review-summary{gap:8px}.p-review-summary>div{padding:13px 10px}.p-review-summary span{font-size:12px}.p-review-summary b{font-size:28px}.p-review-summary small{font-size:12px}.p-review-summary p{font-size:12px}.p-card-title>span{font-size:12px}.p-bars{gap:9px}.p-bar-track{height:105px}.sheet-body{padding-left:16px;padding-right:16px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+/* ---------- 习惯模板包（P1-5）：一组配好的习惯，一键导入 ---------- */
+.packs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}
+.pack{display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:13px 14px}
+.pack-head{display:flex;align-items:flex-start;gap:9px}
+.pack-emoji{flex:0 0 auto;font-size:22px;line-height:1.2}
+.pack-t{min-width:0;display:flex;flex-direction:column}
+.pack-t b{font-size:13.5px;font-weight:650;color:var(--txt-1)}
+.pack-t small{font-size:11.5px;color:var(--txt-3);margin-top:2px;line-height:1.45}
+.pack-items{font-size:11.5px;color:var(--txt-3);line-height:1.6;border-top:1px dashed var(--line);padding-top:8px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pack .btn{margin-top:auto}
+@media(max-width:520px){
+  .packs{grid-template-columns:1fr}
+  .pack-items{-webkit-line-clamp:3}
+}
+
+/* ---------- 一屏网格视图（P1-2）：图标方块，点一下完成 ---------- */
+.p-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px;margin-bottom:22px}
+.p-tile-wrap{position:relative}
+.p-tile{width:100%;display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 8px 12px;
+  border:1px solid var(--line);border-radius:14px;background:var(--card);cursor:pointer;
+  -webkit-tap-highlight-color:transparent;transition:transform .12s ease,border-color .2s ease,background .2s ease}
+.p-tile:active{transform:scale(.95)}
+.p-tile:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.p-tile-ring{position:relative;width:46px;height:46px;border-radius:50%;
+  background:conic-gradient(var(--c) calc(var(--p,0) * 1%), var(--line-2) 0);
+  display:flex;align-items:center;justify-content:center;transition:background .3s ease}
+.p-tile-ring i{position:absolute;inset:4px;border-radius:50%;background:var(--card)}
+.p-tile-ring b{position:relative;z-index:1;line-height:1}
+.p-tile-done{width:22px;height:22px;border-radius:50%;background:var(--c);color:#fff;font-size:12px;font-weight:700;
+  display:none;align-items:center;justify-content:center}
+.p-tile.done .p-tile-done{display:flex}
+.p-tile-num{font-size:12px;font-weight:650;color:var(--txt-2);font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:1px}
+.p-tile-num small{font-size:9px;color:var(--txt-3)}
+.p-tile.done .p-tile-num{display:none}
+.p-tile.done .p-tile-ring{background:var(--c)}
+.p-tile.done{border-color:var(--c);background:color-mix(in srgb, var(--c) 7%, var(--card))}
+.p-tile.skipped{border-style:dashed}
+.p-tile-name{font-size:12px;color:var(--txt-2);text-align:center;line-height:1.35;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:break-all}
+.p-tile.done .p-tile-name{color:var(--txt-1);font-weight:600}
+.p-tile-more{position:absolute;top:2px;right:2px;width:28px;height:28px;border:none;border-radius:8px;background:none;
+  color:var(--txt-3);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;opacity:.75}
+.p-tile-more .p-icon{width:16px;height:16px}
+.p-tile-more:hover,.p-tile-more:focus-visible{opacity:1;background:var(--bg-2);outline:none}
+@media(max-width:520px){
+  .p-grid{grid-template-columns:repeat(3,1fr);gap:9px}
+  .p-tile{padding:12px 6px 10px;gap:7px;border-radius:13px}
+  .p-tile-ring{width:42px;height:42px}
+  .p-tile-name{font-size:11.5px}
+}
+@media(prefers-reduced-motion:reduce){.p-tile,.p-tile-ring{transition:none}}
+
+/* v19 · 沿用品牌与字体，好友共享采用原生按钮与开关。 */
+.v19-page-title{margin:24px 0 18px}.v19-page-title h1{font-size:clamp(22px,4vw,30px);line-height:1.35;margin:0 0 8px;font-weight:700;letter-spacing:-.5px}
+.v19-page-title p,.v19-section-heading p,.v19-share-row p,.v19-progress-row p{color:var(--txt-2);font-size:13px;line-height:1.65;margin:4px 0 0}
+.v19-friends{padding:22px;border:1px solid var(--line);background:var(--card);border-radius:var(--r-lg);margin:20px 0}
+.v19-section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.v19-section-heading h2{font-size:18px;margin:0;line-height:1.4}
+.v19-sync{font-size:12px;color:var(--txt-2);line-height:1.6;margin:14px 0}.v19-sync[data-state=error],.v19-sync[data-state=pending]{color:var(--danger)}
+.v19-progress-row,.v19-share-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
+.v19-progress-row>div,.v19-share-row>div{min-width:0;overflow-wrap:anywhere}.v19-progress-row:last-child,.v19-share-row:last-child{border-bottom:0}
+.v19-progress-row h3{font-size:15px;line-height:1.5;margin:5px 0 0}.v19-person{font-size:12px;color:var(--txt-2)}
+.v19-status{flex-shrink:0;padding:5px 10px;font-size:12px;color:var(--txt-2);border-radius:8px;background:var(--bg-2)}.v19-status.done{color:var(--accent);background:var(--accent-soft)}
+.v19-empty{padding:24px 0}.v19-empty p{font-size:13px;color:var(--txt-2);line-height:1.7}
+.v19-toggle{border:0;border-radius:999px;padding:3px;width:46px;height:28px;flex-shrink:0;background:var(--line);cursor:pointer}
+.v19-toggle span{display:block;width:22px;height:22px;border-radius:50%;background:var(--card);transition:transform .15s}
+.v19-toggle[aria-checked=true]{background:var(--accent)}.v19-toggle[aria-checked=true] span{transform:translateX(18px)}
+.v19-toggle:disabled{opacity:.55;cursor:wait}.v19-privacy{padding:12px 14px;background:var(--accent-soft);color:var(--txt);font-size:13px;line-height:1.8;border-radius:10px}
+.v19-home,.v19-archives{padding:12px 16px;background:var(--bg-2);border:1px solid var(--line);border-radius:12px;margin:16px 0}
+.v19-home summary,.v19-archives summary{cursor:pointer;min-height:28px;font-size:13px;color:var(--txt-2)}
+.v19-room-choice{width:100%;display:flex;justify-content:space-between;gap:10px;align-items:center;padding:16px 0;background:none;border:0;border-bottom:1px solid var(--line);color:var(--txt);text-align:left;font:inherit;cursor:pointer}
+.v19-room-choice span{font-size:12px;color:var(--txt-2)}.v19-text-button{font:inherit;font-size:13px;border:0;color:var(--accent);background:none;padding:12px 0;cursor:pointer}
+.v19-habit-share{margin-bottom:14px}.v19-definitions p{line-height:1.85;margin:0 0 20px}
+.p-streak-row{flex-wrap:wrap;gap:8px}.p-streak-row .streak-chip{font:inherit;font-size:12px;cursor:pointer;min-height:36px;gap:5px;border:1px solid var(--line)}
+button:focus-visible,[role=button]:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.v19-toggle:focus-visible{outline-offset:5px}.p-storage-status small{overflow-wrap:anywhere}
+@media(max-width:420px){.v19-friends{padding:16px}.v19-status{padding:4px 7px}.p-streak-row .streak-chip{font-size:12px}.v19-progress-row{gap:10px}.v19-page-title{margin-top:18px}}
+@media(prefers-reduced-motion:reduce){.v19-toggle span{transition:none}}
+
+/* ===== v23 首屏收敛：问候一行 + 进度一行 + 连续一行，把屏幕还给习惯列表 ===== */
+.p-today-head{margin-bottom:14px}
+.p-greet-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.p-greet{font-size:16px;font-weight:600;line-height:1.4;letter-spacing:0;color:var(--txt);margin:0;min-width:0}
+.p-new{min-height:44px;padding:9px 14px;font-size:13px;border-radius:10px;flex-shrink:0}
+.p-progress-line{display:flex;align-items:center;gap:11px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 14px;margin-bottom:6px}
+.p-pl-num{font-size:19px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.4px;flex-shrink:0;color:var(--txt)}
+.p-pl-num b{font-size:19px;font-weight:700}
+.p-pl-num i{font-style:normal;font-size:13px;color:var(--txt-3);font-weight:500}
+.p-pl-track{flex:1;height:6px;border-radius:999px;background:var(--bg-2);overflow:hidden;min-width:40px}
+.p-pl-track>i{display:block;height:100%;border-radius:999px;background:var(--accent-fill);transition:width .35s cubic-bezier(.4,0,.2,1)}
+.p-pl-pct{font-size:13px;font-weight:600;color:var(--txt-2);font-variant-numeric:tabular-nums;flex-shrink:0;min-width:40px;text-align:right}
+.p-streak-line{display:flex;align-items:center;gap:4px;width:100%;background:none;border:0;padding:6px 2px;font-size:15px;color:var(--txt-3);cursor:pointer;text-align:left;border-radius:8px}
+.p-streak-line b{color:var(--txt-2);font-weight:600;font-variant-numeric:tabular-nums}
+.p-streak-line>span{margin-left:auto;color:var(--txt-3)}
+.p-streak-line:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* v50 · 一句人话：「我在变好吗」—— 一句话回答，不占首屏 */
+.p-insight-line{display:flex;align-items:center;gap:8px;padding:9px 12px;margin-bottom:8px;
+  border-radius:12px;background:var(--bg-2);border:1px solid var(--line);
+  font-size:12.5px;line-height:1.55;color:var(--txt-2)}
+.p-insight-line .p-icon{width:16px;height:16px;flex-shrink:0;opacity:.7}
+
+/* v49：最佳纪录从首屏那一行挪下来单独一行 —— 三个数字挤在一行，390px 上会折成两行，
+ * 反而把「连续 N 天」挤没了。它断了之后才有意义，所以只在有值时出现。 */
+.p-best-line{padding:0 2px;font-size:12px;color:var(--txt-3);line-height:1.5}
+.p-best-line b{color:var(--txt-2);font-weight:600;font-variant-numeric:tabular-nums}
+@media(max-width:520px){.p-greet{font-size:15px}.p-pl-num,.p-pl-num b{font-size:18px}}
+
+/* 状态行：8px 圆点表达「好 / 需要注意」，不用成功绿承载失败信息 */
+.p-status-dot{width:8px;height:8px;border-radius:50%;background:var(--txt-3);flex-shrink:0;margin-top:5px}
+.p-storage-status.warn .p-status-dot{background:var(--warn)}
+.p-storage-status{color:var(--txt-2)}
+.p-storage-status small{font-size:12px}
+
+/* v23 触控与间距：打卡圈与「…」不再挤在一起，所有可点区域 ≥44px */
+@media(max-width:520px){
+  .hitem>.h-sw-body{gap:12px}
+  .hitem .h-ctl{gap:12px}
+  .p-habit-menu{width:44px;height:44px;padding:0;margin-left:2px}
+  .tick{width:44px;height:44px}
+  .fab{width:48px;height:48px;bottom:calc(96px + var(--safe-b))}
+}
+
+/* 手机端搜索默认收起，点放大镜展开；桌面端常驻 */
+.p-search-btn{display:none}
+@media(max-width:520px){
+  .p-search{display:none}
+  .p-search-btn{display:inline-flex;align-items:center;justify-content:center;width:40px;height:36px;flex:none;
+    border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--txt-2);cursor:pointer}
+  .p-search-btn .p-icon{width:19px;height:19px}
+  .p-tools{flex-wrap:nowrap}
+  .p-segments{flex:1;width:auto}
+  .p-tools.searching .p-segments{display:none}
+  .p-tools.searching .p-search{display:flex}
+}
+
+/* small 的浏览器默认是 0.833em，12px 会掉到 10px；单位字统一钉死 12px */
+.h-trend .tr-st small,.h-meta small,.p-pl-num small{font-size:12px!important;font-weight:500}
+.p-storage-status.error .p-status-dot{background:var(--danger)}
+.p-storage-status.error{color:var(--danger)}
+/* v24 · 触控热区（评审 4.4）：视觉尺寸不变，用透明伪元素把点击区域撑到 44×44。
+   只用在「孤立」的小控件上；行内连续的按钮组（moveup/movedown/edit）不撑，否则互相吞点击。
+   v26 增补：.ci-x / .pw-x 两类关闭按钮 26×26（此前选择器写成 .dismisscloudhint，而真实 class 是 .ci-x，
+   v24 的热区根本没生效），.sw 开关 46×27，日期格宽度 40 差 4px。 */
+.p-habit-menu,.icon-btn,.icon-btn.sm,.p-day,.dismisscloudhint,.p-tile,.p-search-btn,.ci-x,.pw-x,.sw{position:relative}
+.p-habit-menu::before,.icon-btn::before,.icon-btn.sm::before,.p-day::before,.dismisscloudhint::before,.p-search-btn::before,
+.ci-x::before,.pw-x::before,.sw::before{
+  /* 用 margin 居中而不是 transform：transform 的百分比在伪元素计算样式里可能解析不出来，
+     热区会跑到盒子静态位置上（看着生效、其实偏的）。 */
+  content:"";position:absolute;left:50%;top:50%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:14px}
+/* v26 · 触控补齐（复检 3.3）：下面这些是「孤立小控件」，物理高度直接给到 44。
+   .ci-x 的背景本来就是透明的，放大到 44×44 不改变任何视觉，只是好点了。 */
+/* .h-name 上有 text-overflow:ellipsis 的 overflow:hidden，伪元素热区会被裁掉，
+   所以直接给物理高度：文字行居中，整行都能点开详情（复检 3.3）。 */
+.h-name{display:flex;align-items:center;min-height:44px}
+/* 关闭按钮 26×26：视觉仍是原来的 ✕，热区变成 44×44 */
+.cld-hint .ci-x,.fr-hint .ci-x,.pwa .pw-x,.pw-x{width:44px;height:44px;line-height:44px;flex:none;font-size:16px}
+/* 卡片里的小按钮 / 文字按钮 / 名言行 */
+.bc-acts>.btn,.fr-acts>.btn,.cld-hint>.btn{min-height:44px}
+.p-text-button{min-height:44px}
+.q-line{min-height:44px;display:flex;align-items:center}
+/* v26 触控补齐（续）：芯片、小按钮、section 右侧的「＋ 新建」、开关本体 */
+.chip{min-height:44px}
+.btn.sm{min-height:44px}
+.sec-title .more{min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center}
+/* 开关 46×27：放进 .line-cell 后伪元素探不出去，直接把本体抬到 44 高 */
+.sw{width:50px;height:44px;border-radius:999px}
+.sw i{top:10px;left:3px;width:24px;height:24px}
+.sw.on i{left:23px}
+.snap-b{min-height:44px}
+/* 开关是这版新换上的：指上去要知道能点 */
+.sw{cursor:pointer}
+/* 日期格 40×76：宽度差 4px，给到 44 */
+.p-day{min-width:44px}
+/* 分段筛选：整行 4 + 36 + 4 = 44px 热区 */
+.p-segments button{min-height:36px}
+/* 计数/时长 stepper：宽屏下三件套都撑到 44 高，加减键宽 44（窄屏已换成 44×44 的「＋」） */
+@media(min-width:360px){
+  .stepper button{width:44px;min-height:44px}
+  .stepper .val{min-height:44px}
+}
+/* 新建习惯表单：空名反馈。灰字常驻提示（方案 A），校验失败转红字（方案 B），与 toast 互补 */
+.p-field-hint{font-size:12px;color:var(--txt-3);margin-top:6px;line-height:1.5}
+.p-field-hint.warn{color:var(--danger)}
+.p-form-err{font-size:12.5px;color:var(--danger);margin:10px 0 0;padding:9px 11px;background:color-mix(in srgb,var(--danger) 9%,transparent);border-radius:9px;line-height:1.5}
+.p-form-err[hidden]{display:none}
+.input[aria-invalid="true"]{border-color:var(--danger);box-shadow:0 0 0 3px color-mix(in srgb,var(--danger) 16%,transparent)}
+/* 320 / 360 小屏：meta 只留「时间 + 目标」，stepper 收成「＋」，卡片整体减负，避免控件重叠 */
+/* 回顾页 0 条数据时的三步引导 */
+.p-first-steps{display:flex;flex-direction:column;gap:14px;margin:16px 0 4px}
+.p-first-step{display:flex;align-items:flex-start;gap:12px}
+.p-first-step>b{flex:0 0 auto;width:30px;height:30px;border-radius:50%;background:var(--accent-fill);color:#fff;display:grid;place-items:center;font-size:15px;font-weight:700}
+.p-first-step strong{display:block;font-size:14px;font-weight:650}
+.p-first-step span{display:block;font-size:12px;color:var(--txt-3);margin-top:2px;line-height:1.5}
+@media(max-width:359px){
+  .hitem>.h-sw-body{padding:16px 12px;gap:10px}
+  .h-meta .m-week,.h-meta .m-days,.h-meta .m-interval,.h-meta .m-score{display:none}
+  .hitem .stepper{display:none}
+  .h-narrow-add{display:grid}
+  .h-name{font-size:14px}
+}
+
+/* ===== v26 · 模板包折叠：12 个全平铺时这一块独占 2000px，是习惯页超高的第一来源 ===== */
+.packs-more{margin:0 0 22px}
+.packs + .packs-more{margin-top:-12px}
+.packs-more>summary{display:flex;align-items:center;justify-content:center;gap:6px;
+  min-height:44px;padding:0 14px;font-size:13px;color:var(--txt-2);cursor:pointer;list-style:none;
+  border:1px dashed var(--line);border-radius:12px;background:var(--card)}
+.packs-more>summary::-webkit-details-marker{display:none}
+.packs-more>summary:hover{color:var(--txt);border-color:var(--accent)}
+.packs-more[open]>summary{margin-bottom:12px;border-style:solid}
+.packs-more .packs{margin-bottom:0}
+
+/* ===== v26 · 密度压缩（复检第 2 天：今日 ≤1100px、习惯页 ≤2600px）=====
+   原则：重复的信息收掉（周几 / 每周几次在趋势行的圆点里已有）、
+   装饰性的内容让位（名言行、云备份第二行说明）、节奏（padding / margin）统一收紧一档。
+   不做的事：不缩小任何可点区域（全部仍 ≥44px），不把正文降到 12px 以下。 */
+@media(max-width:520px){
+  /* 卡片 meta：目标 + 时间是"这个习惯是什么"，周几 / 每周几次 / 强度分在趋势行、
+     详情页、回顾页都已有，窄屏再摆一遍只会折行（运动卡 meta 曾占 108px / 4 行） */
+  .h-meta{font-size:13px;line-height:1.45}
+  .h-meta .m-week,.h-meta .m-days,.h-meta .m-interval,.h-meta .m-score{display:none}
+  /* 打卡节奏：一张卡省 12px，三张卡就是一屏的零头 */
+  .hitem>.h-sw-body{padding:8px 12px}
+  .h-bar{margin-top:7px}
+  .h-trend{font-size:13px;margin-top:3px}
+  .h-trend .tr-st small{font-size:12px!important}
+  .list{gap:8px}
+  /* 中断卡：为什么而坚持是自己的话，留给桌面端；手机上先给结论和补救 */
+  .why-line{display:none}
+  .break-card{position:relative}
+  .break-card .bc-main{padding-right:26px}
+  .break-card .bc-ico .p-icon{width:19px;height:19px}
+  .break-card .bc-ico{font-size:0}
+  .break-card .bc-t{font-size:14px}
+  .break-card .bc-s{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .break-card .bc-acts{margin-top:8px;flex-wrap:nowrap}
+  .break-card .bc-acts .btn{flex:1;min-width:0;padding:0 8px;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  /* 右上角的「知道了」：热区 44×44，不占按钮行的一格 */
+  .break-card .bc-x{position:absolute;top:2px;right:2px;width:44px;height:44px;line-height:44px;
+    border:0;background:transparent;color:var(--txt-3);font-size:14px;cursor:pointer;padding:0;border-radius:12px}
+  .break-card .bc-x:active{background:var(--line)}
+  /* 云备份提示：一句"没开云备份"+ 关闭，第二行说明属于设置页的职责 */
+  .cld-hint{margin:8px 0 2px;padding:8px 8px 8px 12px}
+  .cld-hint.backup .ci-s{display:none}
+  /* 周报卡：标题是口号，把位置让给七天条本身 */
+  .p-week-card{padding:14px 16px}
+  .p-week-card .p-card-title{display:none}
+  .p-week{margin-top:0;gap:5px;align-items:stretch}
+  .p-day{min-height:0;padding:5px 2px;gap:1px}
+  .p-day>span,.p-day>b{line-height:1.15}
+  /* 星期缩写是「唯一带文字的信息」，12px 是可读下限，不能为了塞下它再缩 */
+  .p-day>span{font-size:12px}
+  .p-day>b{font-size:13px}
+  .p-day-dot{margin-top:1px}
+  .p-week-summary{padding-top:8px;margin-top:8px}
+  /* 首屏节奏 */
+  .view{padding:12px 15px 24px}
+  .p-today-head{margin-bottom:8px}
+  .p-greet-row{margin-bottom:8px}
+  .p-progress-line{padding:8px 14px;margin-bottom:4px}
+  .p-streak-line{padding:3px 2px}
+  .p-list-heading{margin-bottom:6px}
+  .p-tools{margin-bottom:8px}
+  .card{margin-bottom:8px}
+  .break-card{padding:12px 14px}
+  /* 名言行是装饰，小屏幕上把位置让给打卡 */
+  .q-line{display:none}
+  /* 习惯页：模板包两列 + 更紧的卡片 */
+  .packs{grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+  .pack{padding:11px 12px}
+  .pack-items{-webkit-line-clamp:2}
+  /* 随手记：收起态压到 44px 的行 */
+  .fold-rec{margin-bottom:8px}
+  .fold-rec>summary{padding:10px 14px;min-height:44px}
+}
+
+/* ===== v26 · emoji → SVG sprite 之后，原来靠 font-size 撑大的图标容器要显式给尺寸 ===== */
+.bw-i .p-icon,.ld-i .p-icon,.pack-emoji .p-icon,.chal-emoji .p-icon,.bp-ico .p-icon,.fr-ico .p-icon{width:1em;height:1em}
+.bw-i{font-size:26px;line-height:1.2;display:grid;place-items:center}
+.ld-i{font-size:20px;display:grid;place-items:center}
+.pack-emoji{font-size:22px;line-height:1.2;display:grid;place-items:center;color:var(--accent)}
+.chal-emoji{font-size:24px;line-height:1;display:grid;place-items:center}
+.bp-ico{font-size:56px;line-height:1;display:grid;place-items:center;color:var(--accent)}
+.fold-rec .fr-ico{font-size:15px;line-height:1;display:grid;place-items:center;color:var(--txt-3)}
+.cell-ico .p-icon{width:20px;height:20px}
+/* 挑战预设芯片：图标与文字间距 */
+.chip .p-icon{width:16px;height:16px;flex:none}
+.ins-ico{font-size:19px;line-height:1.3;flex-shrink:0;display:grid;place-items:center}
+.ins-ico .p-icon{width:19px;height:19px}
+/* 周报 chips 里的图标：跟随文字大小 */
+.chip .p-icon{vertical-align:-2px}
+/* v26 · 滑动层与关闭按钮也换成 sprite 后，容器要负责居中（原来靠 line-height 居中文字） */
+.h-sw-ico{display:grid;place-items:center}
+.h-sw-ico .p-icon{width:15px;height:15px}
+.ci-x,.bc-x,.pw-x{display:inline-flex;align-items:center;justify-content:center;padding:0}
+.ci-x .p-icon,.bc-x .p-icon,.pw-x .p-icon{width:16px;height:16px}
+.linkbtn .p-icon{width:15px;height:15px;vertical-align:-2px;margin-right:3px}
+/* v26 · 心情刻度 / 习惯包 / 确认框图标：容器按字号撑起 sprite */
+.mood .p-icon{width:22px;height:22px;display:block;margin:0 auto}
+.bundle-emoji .p-icon{width:22px;height:22px}
+.cf-ico .p-icon{width:34px;height:34px}
+.sec-title .more .p-icon{width:15px;height:15px;vertical-align:-2px}
+/* v26 · 两处踩在及格线上的对比度：
+   ① 浅色下「已完成」习惯的 −/+ 用 --txt-2(#657086) 落在 --ok-soft 上只有 4.46:1，压到 --txt 正文色；
+   ② 深色下「取消」标签沿用深色字，但底是中灰 #6f7588，只有 3.91:1，这一格单独改回白字（4.87:1）。 */
+.hitem.done .stepper button{color:var(--txt)}
+html[data-theme=dark] .hitem.done .h-sw-l{color:#fff}
+/* v26 · 等级徽章：深色下 --accent 是浅蓝，白字只有 2.37:1，改深色字（7.57:1） */
+html[data-theme=dark] .lvl-badge{color:#13171f}
+/* v26 · 月报热力格的「最深一档」：白字压在 #16a34a 上只有 3.3:1（深色更差，2.02:1）。
+   浅色改用 --ok 实色（5.02:1），深色下改深色字（8.9:1）。 */
+.mrep-grid .cal-cell.lv4{background:var(--ok)}
+html[data-theme=dark] .mrep-grid .cal-cell.lv4{color:#13171f}
+
+/* ---------- v51：部分完成 / 打印入口 ---------- */
+/* 环形里那个 ◐：只在「过半但没到目标」时出现。
+   和 ✓ 一样压在环中央，但用弱一档的颜色 —— 它不是完成，是「今天没白过」。 */
+.p-tile-part{display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-size:17px;line-height:1;color:var(--ok)}
+.p-tile.partial .p-tile-part{display:flex}
+.p-tile.partial .p-tile-ring>i{opacity:.72}
+/* 回顾页标题右边现在有两个按钮，窄屏要能换行 */
+.p-heading-actions{display:flex;gap:8px;flex-wrap:wrap}
+@media (max-width:420px){.p-heading-actions{width:100%}.p-heading-actions .btn{flex:1;justify-content:center}}
