@@ -1,26 +1,27 @@
-/* 日拱一卒 · 独立部署版 Service Worker
+/* 日拱一卒 · 独立部署版 Service Worker（GitHub Pages）
  *
- * 与原版 sw.js 的关键区别（v43 原文件未随缓存留存，此为重写）：
+ * 与原版 sw.js 的关键区别：
  * 1. 导航请求「网络优先 3 秒超时，失败回退缓存的应用壳」——
- *    沙箱休眠、断网、5xx 时老用户照样能打开应用，本地数据照常用。
- *    （原版在服务器不可达时直接落到平台的 504 错误页，这是本次修的 P0。）
+ *    平台休眠、断网、5xx 时老用户照样能打开应用，本地数据照常用。
  * 2. 静态资源缓存优先（文件名自带 ?v= 版本号）。
  * 3. 只管同源；云后端（workbuddy.host）等跨域请求原样放行。
+ *
+ * v44：版本号随发布升到 44；导航兜底同时命中 './' 与 './index.html' 两个键。
  */
-const VERSION = 'rigongyizhu-standalone-1';
+const VERSION = 'rigongyizhu-standalone-44';
 const CORE = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './assets/app.css?v=43',
-  './assets/product.css?v=43',
+  './assets/app.css?v=44',
+  './assets/product.css?v=44',
   './assets/icons.svg',
   './assets/icon.svg',
   './assets/icon-192.png',
   './assets/icon-512.png',
   './assets/apple-touch-icon.png',
-  './src/app.bundle.js?v=43',
-  './vendor/cloud-sdk.js?v=43',
+  './src/app.bundle.js?v=44',
+  './vendor/cloud-sdk.js?v=44',
 ];
 
 self.addEventListener('install', (event) => {
