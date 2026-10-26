@@ -8,9 +8,10 @@
   "orientation": "portrait",
   "shortcuts": [
     {
-      "name": "今日打卡",
+      "name": "一键打卡",
       "short_name": "打卡",
-      "url": "./index.html?go=today",
+      "description": "直接完成今天第一个还没做的习惯",
+      "url": "./index.html?quickadd=1",
       "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {

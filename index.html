@@ -3,22 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="日拱一卒：一个默认只存在本机的习惯打卡工具。每天勾一下，看得见连续天数、周报与趋势；不注册也能用，不开同步就不上传。">
 <meta name="theme-color" content="#f6f7fb">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>日拱一卒 · 习惯打卡</title>
+<meta name="description" content="每天勾一下，看得见连续天数与趋势。不用注册、数据只存在这台设备、断网也能打卡，可导出 JSON / CSV / 加密备份。">
 <!-- v41 · 报告五-1：分享卡片。微信 / Telegram / 微博抓的都是这几个标签，
      没有它们分享出去就是一条光秃秃的链接。 -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="日拱一卒">
 <meta property="og:title" content="日拱一卒 · 习惯打卡">
-<meta property="og:description" content="每天勾一下，看得见连续天数与趋势。默认只存在这台设备，不注册也能用，不开同步就不上传。">
+<meta property="og:description" content="每天勾一下，看得见连续天数与趋势。不用注册、数据只存在这台设备、断网也能打卡。">
 <meta property="og:image" content="assets/icon-512.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="日拱一卒 · 习惯打卡">
-<meta name="twitter:description" content="每天勾一下，看得见连续天数与趋势。默认只存在这台设备。">
+<meta name="twitter:description" content="每天勾一下，看得见连续天数与趋势。不用注册、数据只存在这台设备、断网也能打卡。">
 <meta name="twitter:image" content="assets/icon-512.png">
 <link rel="manifest" href="manifest.webmanifest">
 <!-- 首帧就把深浅色定下来：否则深色模式下会先闪一下白底，地址栏颜色也对不上（v38 · 外部评审 P0-6） -->
@@ -34,13 +34,13 @@ var m=document.querySelector('meta[name="theme-color"]');
 if(m)m.setAttribute('content',t==='dark'?'#12141c':'#f6f7fb');
 }catch(e){}})();
 </script>
-<link rel="stylesheet" href="assets/app.css?v=47">
-<link rel="stylesheet" href="assets/product.css?v=47">
+<link rel="stylesheet" href="assets/app.css?v=48">
+<link rel="stylesheet" href="assets/product.css?v=48">
 <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
 <!-- iOS Safari 不认 SVG 的 apple-touch-icon，单独给一张 180×180 的 PNG（tools/mkicon.cjs 生成）。
      不写圆角、不留透明：iOS 会自己套圆角遮罩，铺底之后四角也是图标自己的颜色。 -->
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<script defer src="src/app.bundle.js?v=47"></script>
+<script defer src="src/app.bundle.js?v=48"></script>
 </head>
 <body>
 
