@@ -6,22 +6,22 @@
  * 2. 静态资源缓存优先（文件名自带 ?v= 版本号）。
  * 3. 只管同源；云后端（workbuddy.host）等跨域请求原样放行。
  *
- * v44：版本号随发布升到 44；导航兜底同时命中 './' 与 './index.html' 两个键。
+ * v45：版本号随发布升到 45；导航兜底同时命中 './' 与 './index.html' 两个键。
  */
-const VERSION = 'rigongyizhu-standalone-44';
+const VERSION = 'rigongyizhu-standalone-45';
 const CORE = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './assets/app.css?v=44',
-  './assets/product.css?v=44',
+  './assets/app.css?v=45',
+  './assets/product.css?v=45',
   './assets/icons.svg',
   './assets/icon.svg',
   './assets/icon-192.png',
   './assets/icon-512.png',
   './assets/apple-touch-icon.png',
-  './src/app.bundle.js?v=44',
-  './vendor/cloud-sdk.js?v=44',
+  './src/app.bundle.js?v=45',
+  './vendor/cloud-sdk.js?v=45',
 ];
 
 self.addEventListener('install', (event) => {
