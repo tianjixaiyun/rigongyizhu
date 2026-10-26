@@ -18,24 +18,24 @@
  * v54：少即是多（「我的」页收成 3 个分组 / 首屏拆包：日记·回顾·社交·积分
  *      拆成 4 个按需 chunk，core 首屏跑完空闲时再拉，离线清单里照常预缓存）。
  */
-const VERSION = 'rigongyizhu-standalone-54';
+const VERSION = 'rigongyizhu-standalone-55';
 const CORE = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './assets/app.css?v=54',
-  './assets/product.css?v=54',
+  './assets/app.css?v=55',
+  './assets/product.css?v=55',
   './assets/icons.svg',
   './assets/icon.svg',
   './assets/icon-192.png',
   './assets/icon-512.png',
   './assets/apple-touch-icon.png',
-  './src/app.bundle.js?v=54',
-  './src/chunk-diary.js?v=54',
-  './src/chunk-grow.js?v=54',
-  './src/chunk-social.js?v=54',
-  './src/chunk-plus.js?v=54',
-  './vendor/cloud-sdk.js?v=54',
+  './src/app.bundle.js?v=55',
+  './src/chunk-diary.js?v=55',
+  './src/chunk-grow.js?v=55',
+  './src/chunk-social.js?v=55',
+  './src/chunk-plus.js?v=55',
+  './vendor/cloud-sdk.js?v=55',
 ];
 
 self.addEventListener('install', (event) => {
