@@ -9,21 +9,22 @@
  * v45：版本号随发布升到 45；导航兜底同时命中 './' 与 './index.html' 两个键。
  * v47：健康数据自动勾选。
  * v48：不注册也能用（空态信任行 / 一键打卡快捷入口）。
+ * v49：断签不可怕（每周休息额度 / 本月完成度 / 断签安抚 / 累计次数）。
  */
-const VERSION = 'rigongyizhu-standalone-48';
+const VERSION = 'rigongyizhu-standalone-49';
 const CORE = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './assets/app.css?v=48',
-  './assets/product.css?v=48',
+  './assets/app.css?v=49',
+  './assets/product.css?v=49',
   './assets/icons.svg',
   './assets/icon.svg',
   './assets/icon-192.png',
   './assets/icon-512.png',
   './assets/apple-touch-icon.png',
-  './src/app.bundle.js?v=48',
-  './vendor/cloud-sdk.js?v=48',
+  './src/app.bundle.js?v=49',
+  './vendor/cloud-sdk.js?v=49',
 ];
 
 self.addEventListener('install', (event) => {
