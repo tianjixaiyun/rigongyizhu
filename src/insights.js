@@ -330,6 +330,27 @@ _iroot.Insights = (function () {
     };
   }
 
+  /* ---------- 8. 打卡时段分布（v55）----------
+   * 「一天里几点最稳」—— 最近 90 天所有带真实时刻的完成，按 2 小时一桶。
+   * 只算当天打的卡：补卡/导入的 t 是补的那一秒，与 hourInsight 同一条口径。
+   * 不足 20 次不出结论 —— 分母太小，任何「规律」都只是噪声（与 sample() 同一哲学）。 */
+  function hourDist() {
+    var bins = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    var lg = logs(), its = items();
+    lastDays(90).forEach(function (d) {
+      its.forEach(function (it) {
+        var e = (lg[d] || {})[it.id];
+        if (!e || !e.t || !doneOn(it, d)) return;
+        if (U.ymd(new Date(e.t)) !== d) return;      // 补卡 / 导入，不算真实时刻
+        bins[Math.min(11, Math.floor(new Date(e.t).getHours() / 2))]++;
+      });
+    });
+    var total = bins.reduce(function (a, b) { return a + b; }, 0);
+    var peak = 0;
+    for (var i = 1; i < 12; i++) if (bins[i] > bins[peak]) peak = i;
+    return { bins: bins, total: total, peak: peak, ok: total >= 20, left: Math.max(0, 20 - total) };
+  }
+
   /* ---------- 汇总 ---------- */
   /* 样本门槛（评审 4.3）：分母太小的时候，任何「规律」都只是噪声。
    * 门槛：至少 14 天有记录、且至少 10 次完成。不够就不出结论，
@@ -435,7 +456,7 @@ _iroot.Insights = (function () {
 
   return {
     all: all, headline: headline, doneOn: doneOn, series: series, lastDays: lastDays, sample: sample,
-    verdict: verdict, oneLine: oneLine,
+    verdict: verdict, oneLine: oneLine, hourDist: hourDist,
     bust: function () { CACHE.rev = -1; }
   };
 })();

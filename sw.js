@@ -7,15 +7,15 @@
  *               把整个离线安装一起拖垮 —— 那会让「断网也能打卡」这件事失效。
  * 以前 cloud-sdk 在 FILES 里，页面早就改成按需加载了，离线清单却还把它当必需品。
  */
-const CACHE = 'rigongyizhu-v54';
+const CACHE = 'rigongyizhu-v55';
 const FILES = [
   './', './index.html', './manifest.webmanifest',
-  './assets/app.css?v=54', './assets/product.css?v=54', './assets/icons.svg', './assets/icon.svg', './assets/apple-touch-icon.png',
-  './src/util.js?v=54', './src/errlog.js?v=54', './src/sync-model.js?v=54', './src/cloud-v18.js?v=54', './src/webdav.js?v=54', './src/enc.js?v=54', './src/store.js?v=54', './src/engine.js?v=54',
-  './src/parse.js?v=54', './src/features.js?v=54', './src/todo.js?v=54', './src/challenge.js?v=54', './src/timer.js?v=54', './src/plugins.js?v=54', './src/extra.js?v=54', './src/rooms.js?v=54', './src/lock.js?v=54', './src/buddy.js?v=54', './src/health.js?v=54', './src/fx.js?v=54', './src/ux.js?v=54', './src/remind.js?v=54', './src/insights.js?v=54', './src/ics.js?v=54', './src/paper.js?v=54', './src/plus.js?v=54', './src/diary.js?v=54', './src/level.js?v=54', './src/safety.js?v=54', './src/decor.js?v=54', './src/chart.js?v=54',   './src/product.js?v=54', './src/ui.js?v=54', './src/friends-v19.js?v=54', './src/main.js?v=54'
+  './assets/app.css?v=55', './assets/product.css?v=55', './assets/icons.svg', './assets/icon.svg', './assets/apple-touch-icon.png',
+  './src/util.js?v=55', './src/errlog.js?v=55', './src/sync-model.js?v=55', './src/cloud-v18.js?v=55', './src/webdav.js?v=55', './src/enc.js?v=55', './src/store.js?v=55', './src/engine.js?v=55',
+  './src/parse.js?v=55', './src/features.js?v=55', './src/todo.js?v=55', './src/challenge.js?v=55', './src/timer.js?v=55', './src/plugins.js?v=55', './src/extra.js?v=55', './src/rooms.js?v=55', './src/lock.js?v=55', './src/buddy.js?v=55', './src/health.js?v=55', './src/fx.js?v=55', './src/ux.js?v=55', './src/remind.js?v=55', './src/insights.js?v=55', './src/ics.js?v=55', './src/paper.js?v=55', './src/plus.js?v=55', './src/diary.js?v=55', './src/level.js?v=55', './src/safety.js?v=55', './src/decor.js?v=55', './src/chart.js?v=55',   './src/product.js?v=55', './src/ui.js?v=55', './src/friends-v19.js?v=55', './src/main.js?v=55'
 ];
 /* 可选资源：下不下来都不影响离线打卡，失败就下次联网时再说 */
-const OPTIONAL = ['./vendor/cloud-sdk.js?v=54'];
+const OPTIONAL = ['./vendor/cloud-sdk.js?v=55'];
 const ALL = FILES.concat(OPTIONAL);
 
 self.addEventListener('install', e => {

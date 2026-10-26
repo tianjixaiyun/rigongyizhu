@@ -2032,6 +2032,29 @@ window.UI = (function () {
       '<div class="b' + (w.pct >= 80 ? ' on' : '') + '" style="height:' + Math.max(3, w.pct / maxPct * 100) + '%" title="' + w.label + ' ' + w.pct + '%"></div>').join('') + '</div>' +
       '<div class="bars-x">' + wk.map(w => '<span>' + w.label + '</span>').join('') + '</div></div>';
 
+    /* ---------- v55 · 打卡时段：一天里几点最稳 ----------
+     * 外部调研（2026-10）收尾的最后一块：时段规律有文字洞察，但没有「一眼看到分布」。
+     * 峰值只高亮、不说死结论；样本不足 20 次时讲清还差几次（v34 诚实门槛的同一套话术）。 */
+    {
+      const hd = Insights.hourDist ? Insights.hourDist() : null;
+      if (hd) {
+        html += '<div class="sec-title"><h3>打卡时段</h3><span>最近 90 天 · 只算当天打的卡</span></div>';
+        if (hd.ok) {
+          const maxB = Math.max(1, ...hd.bins);
+          html += '<div class="card">' +
+            '<div class="row" style="align-items:baseline;gap:10px;flex-wrap:wrap">' +
+            '<div style="font-size:17px;font-weight:700">你最常在 <b style="color:var(--accent)">' + (hd.peak * 2) + '–' + (hd.peak * 2 + 2) + ' 点</b> 打卡</div>' +
+            '<div class="muted">' + hd.bins[hd.peak] + ' 次 · 占 ' + Math.round(hd.bins[hd.peak] / hd.total * 100) + '%</div></div>' +
+            '<div class="bars">' + hd.bins.map((n, i) =>
+              '<div class="b' + (i === hd.peak ? ' on' : '') + '" style="height:' + Math.max(3, n / maxB * 100) + '%" title="' + (i * 2) + '–' + (i * 2 + 2) + ' 点 · ' + n + ' 次"></div>').join('') + '</div>' +
+            '<div class="bars-x">' + hd.bins.map((_, i) => '<span>' + (i * 2) + '</span>').join('') + '</div>' +
+            '<div class="muted" style="margin-top:8px;font-size:12px;line-height:1.6">提醒时间照着这个挪，响的时候正好是你本来就会做的时候。</div></div>';
+        } else {
+          html += '<div class="card"><div class="muted">带时刻的打卡攒够 20 次后，这里会告诉你一天里哪个时段你最稳（现在 ' + hd.total + ' 次，还差 ' + hd.left + ' 次）。</div></div>';
+        }
+      }
+    }
+
     html += '<div class="grid3">' +
       '<div class="stat"><b>' + Engine.globalStreak() + '</b><span>全站连续天数</span></div>' +
       '<div class="stat"><b>' + Engine.totalCheckins() + '</b><span>累计打卡</span></div>' +
