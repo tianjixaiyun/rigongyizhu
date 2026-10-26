@@ -13,21 +13,23 @@
  * v50：提醒会闭嘴（学会闭嘴 / 年度型排程 / 一句人话）。
  * v51：别让今天白过（部分完成 / 每月休息额度 / 日历导出 / 打印打卡纸）。
  * v52：第一分钟（刷新不再闪空态 / 首帧主题 / 隐私口径 / 首屏减卡）。
+ * v53：你说了算（新版装好停在 waiting 等用户点刷新 / 色盲模式补形状通道 /
+ *      空态恢复入口降为页脚文字链 / 状态条按钮终于点得动）。
  */
-const VERSION = 'rigongyizhu-standalone-52';
+const VERSION = 'rigongyizhu-standalone-53';
 const CORE = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './assets/app.css?v=52',
-  './assets/product.css?v=52',
+  './assets/app.css?v=53',
+  './assets/product.css?v=53',
   './assets/icons.svg',
   './assets/icon.svg',
   './assets/icon-192.png',
   './assets/icon-512.png',
   './assets/apple-touch-icon.png',
-  './src/app.bundle.js?v=52',
-  './vendor/cloud-sdk.js?v=52',
+  './src/app.bundle.js?v=53',
+  './vendor/cloud-sdk.js?v=53',
 ];
 
 self.addEventListener('install', (event) => {
@@ -35,8 +37,15 @@ self.addEventListener('install', (event) => {
     const cache = await caches.open(VERSION);
     // 全部尝试预缓存；单个失败不阻断安装（首次有网即可，后续靠运行时补）
     await Promise.allSettled(CORE.map((u) => cache.add(new Request(u, { cache: 'reload' }))));
-    await self.skipWaiting();
+    // v53：不再自动 skipWaiting。装好的新版停在 waiting，由页面弹「新版本已就绪」，
+    // 用户点了才让路 —— 否则正在写日记的人会被静默换版本。
   })());
+});
+
+// 页面点「刷新」后发来 SKIP_WAITING，这时才激活
+self.addEventListener('message', (event) => {
+  const d = event.data || {};
+  if (d.type === 'SKIP_WAITING') self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
