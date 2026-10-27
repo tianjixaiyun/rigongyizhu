@@ -35,17 +35,22 @@ var qp=new URLSearchParams(location.search).get('theme');if(qp)t=qp;
 if(t==='system')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
 if(t!=='dark')t='light';
 document.documentElement.setAttribute('data-theme',t);
+/* v58：主题色首帧镜像（applyAccent 每次都写回 rgz.accent，值不是 key，这里不用带表） */
+try{var a=JSON.parse(localStorage.getItem('rgz.accent')||'null');
+if(a&&a.l&&a.d){var rs=document.documentElement.style;
+rs.setProperty('--accent',t==='dark'?a.d[0]:a.l[0]);
+rs.setProperty('--accent-soft',t==='dark'?a.d[1]:a.l[1]);}}catch(e){}
 var m=document.querySelector('meta[name="theme-color"]');
 if(m)m.setAttribute('content',t==='dark'?'#12141c':'#f6f7fb');
 }catch(e){}})();
 </script>
-<link rel="stylesheet" href="assets/app.css?v=57">
-<link rel="stylesheet" href="assets/product.css?v=57">
+<link rel="stylesheet" href="assets/app.css?v=58">
+<link rel="stylesheet" href="assets/product.css?v=58">
 <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
 <!-- iOS Safari 不认 SVG 的 apple-touch-icon，单独给一张 180×180 的 PNG（tools/mkicon.cjs 生成）。
      不写圆角、不留透明：iOS 会自己套圆角遮罩，铺底之后四角也是图标自己的颜色。 -->
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<script defer src="src/app.bundle.js?v=57"></script>
+<script defer src="src/app.bundle.js?v=58"></script>
 </head>
 <body>
 
