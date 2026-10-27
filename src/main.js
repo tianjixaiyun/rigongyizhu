@@ -3576,6 +3576,34 @@
     }
   }
 
+  /* ---------- 待挺久了提醒（v60 · 对标抖音唯一「反着学」的一条）----------
+   * 抖音的设计目标是让你停不下来；打卡应用的目标是用完就走。
+   * 用户在这一个工具上连续停留很久，本身就是个信号：今天该做的可能还没做。
+   * 于是借抖音自己的「时间提醒」设计反打一次 —— 每次冷启动最多提醒一次，
+   * 今天全部做完就永不提示（都做完了，多待会儿也没关系，不需要被打断）。 */
+  function watchSession() {
+    let activeMs = 0, lastTick = Date.now(), nudged = false;
+    function tick() {
+      if (document.visibilityState === 'visible') activeMs += Date.now() - lastTick;
+      lastTick = Date.now();
+      if (nudged) return;
+      const min = (Store.s && Store.s.settings && Store.s.settings.sessNudgeMin);
+      const limit = (min == null ? 8 : +min) * 60000;
+      if (activeMs < limit) return;
+      nudged = true;
+      try {
+        const r = Engine.todayRate(U.today());
+        if (!(r.total > 0) || r.pct >= 100) return;   // 都做完了：多待会儿没关系，不打扰
+        toast('在这待挺久了 —— 该做的还等着呢，去吧 💪', 6000);
+        if (window.UX) UX.sfx('tap');
+      } catch (e) { }
+    }
+    setInterval(tick, 15000);
+    if (document.addEventListener) {
+      document.addEventListener('visibilitychange', () => { lastTick = Date.now(); });
+    }
+  }
+
   /* 新版本已就绪：顶部一条绿色提示，点「刷新」才开始用新版。
    * 不自动刷新——用户正在写日记时被打断比用旧版更糟。 */
   function showUpdateBar() {
@@ -3647,6 +3675,7 @@
     bind();
     UI.render();
     Feat.Pomo.paint();
+    watchSession();
     /* 隐私锁（v46 · 对标 Habitify Privacy Lock）：先画完首帧再盖遮罩 ——
      * 一进来就是一片白再弹锁，会让人以为应用坏了。
      * 注意它必须在 boot 同步段和 onStoreReady 里各判一次：initSync 读的是
