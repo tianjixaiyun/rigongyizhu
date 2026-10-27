@@ -62,6 +62,20 @@ window.Challenge = (function () {
     });
   }
 
+  /* v59 · 全品类对标（Way of Life 的 chains / HabitNow 的灵活目标）：
+   * 挑战不再只有 6 个写死的模板 —— 任意习惯 × 任意天数（7–100）。
+   * 奖励按约 6 分/天自动算（与现有模板同量级），凑成 5 的倍数。
+   * 进度/通关/领奖全部复用 join+syncAll 的既有逻辑，custom key 唯一不与预设冲突。 */
+  function createCustom(o) {
+    const name = String(o.name || '').trim().slice(0, 20);
+    const days = Math.min(100, Math.max(7, Math.round(+o.days || 0)));
+    if (!name || !days) return null;
+    const habitName = String(o.habitName || '').trim().slice(0, 20) || name;
+    const reward = Math.max(30, Math.round(days * 6 / 5) * 5);
+    return join({ key: 'custom_' + U.uid('c').slice(-10), name: name, icon: 'target', emoji: '🎯',
+      days: days, habit: habitName, reward: reward, desc: '' });
+  }
+
   function doneCount(c) { return Object.keys(c.doneDates || {}).length; }
   function pct(c) { return Math.min(100, Math.round(doneCount(c) / Math.max(1, c.days) * 100)); }
   function left(c) { return Math.max(0, c.days - doneCount(c)); }
@@ -93,5 +107,5 @@ window.Challenge = (function () {
     return cleared;
   }
 
-  return { PRESETS, preset, list, find, joined, join, leave, doneCount, pct, left, syncAll };
+  return { PRESETS, preset, list, find, joined, join, leave, createCustom, doneCount, pct, left, syncAll };
 })();

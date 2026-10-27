@@ -330,6 +330,43 @@ _iroot.Insights = (function () {
     };
   }
 
+  /* ---------- 10. 连续两周吃力 → 建议把目标调小（v59 · 全品类对标）----------
+   * 出处是真实用户的教训（CSDN 横评作者）：「连续两周完成率低于 60%，不是你的问题，
+   * 是目标设置的问题」。这条是通往「最小版本」功能的路标 —— 洞察和功能闭环。
+   * 两个滚动 7 天窗都低才说（单周低可能只是意外）；每周应打卡样本 ≥ 8 天，太少不下结论。 */
+  function goalTooBig() {
+    var its = items();
+    if (!its.length) return null;
+    var weeks = [], totalDue = 0, totalDone = 0;
+    for (var w = 0; w < 2; w++) {
+      var due = 0, done = 0;
+      for (var i = 1 + w * 7; i <= 7 + w * 7; i++) {
+        var d = U.shiftYmd(U.today(), -i);
+        its.forEach(function (it) {
+          if (!Engine.isDue(it, d)) return;
+          if (Engine.isSkipped(d, it.id)) return;
+          due++; if (doneOn(it, d)) done++;
+        });
+      }
+      if (due < 8) return null;
+      weeks.push({ rate: done / due });
+      totalDue += due; totalDone += done;
+    }
+    if (weeks[0].rate >= 0.6 || weeks[1].rate >= 0.6) return null;
+    var worst = null;
+    its.forEach(function (it) {
+      var st = Engine.itemRate(it.id, 14);
+      if (st == null) return;
+      if (!worst || st < worst.rate) worst = { it: it, rate: st };
+    });
+    return {
+      kind: 'goal', icon: 'target', tone: 'info',
+      title: '这两周都有点吃力 —— 可能不是你的问题',
+      body: '最近两周完成率只有 ' + pct(totalDone / totalDue) + '%。目标定大是最常见的原因：' +
+        '试试给「' + (worst ? worst.it.name : '最难的那项') + '」设一个最小版本（读 1 页也算完成），把门槛砍到不可能失败的程度。'
+    };
+  }
+
   /* ---------- 8. 打卡时段分布（v55）----------
    * 「一天里几点最稳」—— 最近 90 天所有带真实时刻的完成，按 2 小时一桶。
    * 只算当天打的卡：补卡/导入的 t 是补的那一秒，与 hourInsight 同一条口径。
@@ -400,6 +437,8 @@ _iroot.Insights = (function () {
     /* v39 起的三条交叉洞察放最后：它们依赖日记/健康数据，样本更稀，
      * 排在「周几最容易断」这类硬结论后面才不会喧宾夺主。 */
     var hh = hourInsight(); if (hh) out.push(hh);
+    /* v59：连续两周吃力 → 建议调小目标。放在交叉洞察之前 —— 它比天气/健康更该先被看到。 */
+    var gb = goalTooBig(); if (gb) out.push(gb);
     var we = weatherInsight(); if (we) out.push(we);
     var he = healthInsight(); if (he) out.push(he);
     return out.slice(0, 8);

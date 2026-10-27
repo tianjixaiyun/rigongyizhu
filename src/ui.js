@@ -3401,7 +3401,23 @@ window.UI = (function () {
           (c ? '<button class="btn sm ghost" data-act="chaldetail" data-id="' + c.id + '">进行中</button>'
             : '<button class="btn sm" data-act="chaljoin" data-k="' + p.key + '">加入</button>') +
           '</div>';
-      }).join('') + '</div>');
+      }).join('') + '</div>' +
+      /* v59 · 全品类对标：挑战不再只有预设 —— 任意习惯 × 任意天数。
+       * 奖励按约 6 分/天自动算（与预设同量级），绑已有习惯不新建。 */
+      '<div class="sec-title"><h3>自建一个</h3><span>任意天数</span></div>' +
+      '<div class="card">' +
+      '<div class="field"><input class="input" id="chName" data-max="20" placeholder="挑战名称，例如：跑步 45 天"></div>' +
+      '<div class="row" style="gap:8px">' +
+      '<select class="input" id="chHabit" style="flex:1.6">' +
+      '<option value="">自动创建同名习惯</option>' +
+      (S().items || []).filter(x => !x.deleted && !x.archived).map(x => '<option value="' + x.id + '">' + E(x.name) + '</option>').join('') +
+      '</select>' +
+      '<select class="input" id="chDays" style="flex:1">' +
+      [7, 14, 21, 30, 45, 60, 100].map(d => '<option value="' + d + '"' + (d === 21 ? ' selected' : '') + '>' + d + ' 天</option>').join('') +
+      '</select></div>' +
+      '<div class="muted" style="margin-top:6px">每天该习惯完成，进度 +1；攒够天数拿积分（约 6 分/天）。进度按累计算，漏一天不清零。</div>' +
+      '<button class="btn block" style="margin-top:8px" data-act="chalcreate">开始这个挑战</button>' +
+      '</div>');
   }
 
   function openPomo() {

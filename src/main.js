@@ -2511,6 +2511,19 @@
     },
     chaldetail(el) { const c = Challenge.find(el.dataset.id); if (c) UI.openChalDetail(c); },
     challib() { UI.openChalLib(); },
+    /* v59 · 自建挑战：名称 + 绑已有习惯（或自动建同名）+ 天数，奖励在 Challenge.createCustom 里按天数算 */
+    chalcreate() {
+      const name = ($('chName').value || '').trim();
+      const days = +($('chDays').value || 0) || 21;
+      if (!name) return toast('先给挑战起个名字');
+      const hv = $('chHabit').value;
+      const it = hv ? (Store.s.items || []).find(x => x.id === hv && !x.deleted && !x.archived) : null;
+      const c = Challenge.createCustom({ name, days, habitName: it ? it.name : name });
+      if (!c) return toast('没建成 —— 天数要在 7 到 100 之间');
+      UI.closeSheet(); UI.render();
+      UX.sfx('tap');
+      toast('挑战开始 · 通关奖励 ' + c.reward + ' 分 🎯');
+    },
     chalhabit() { UI.closeSheet(); UI.go('today'); },
 
     /* ---------- 搭子（v32 · 4.7） ---------- */
