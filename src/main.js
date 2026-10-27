@@ -734,6 +734,10 @@
     /* 排序：上移 / 下移。顺序就是今日页的显示顺序 */
     moveup(el) { moveHabit(el.dataset.id, -1); },
     movedown(el) { moveHabit(el.dataset.id, 1); },
+    /* v56 · 交互走查：习惯多时「上移一位」要点 N 次（菜单注释自己都说排序是最高频操作）。
+     * 补「移到最前/最后」两个直达项；拖拽手柄会和右滑/长按手势打架，不做。 */
+    movetop(el) { moveHabitTo(el.dataset.id, 'top'); },
+    movebottom(el) { moveHabitTo(el.dataset.id, 'bottom'); },
     /* 习惯页「⋯」：排序 / 编辑 / 计时都收在这里，卡片上只留名字和状态 */
     habitmenu(el) { UI.openHabitMenu(el.dataset.id, el.dataset.from); },
     archivehabit(el) {
@@ -899,10 +903,20 @@
       const r = Store.s.rewards.find(x => x.id === el.dataset.id);
       if (!r) return;
       if (Engine.points() < r.cost) return toast('积分不够');
-      Store.commit(s => {
-        s.redemptions.push({ id: U.uid('rd'), rewardId: r.id, name: r.name, cost: r.cost, at: Date.now() });
-      });
-      UI.openRewards(); UI.render(); toast('兑换成功：' + r.name);
+      const rec = { id: U.uid('rd'), rewardId: r.id, name: r.name, cost: r.cost, at: Date.now() };
+      Store.commit(s => { s.redemptions.push(rec); });
+      UI.openRewards(); UI.render();
+      /* v56 · 交互走查：兑换原来没有任何确认/撤销 —— 误触（按钮旁边就是删除）
+       * 会白扣积分且无从反悔，而后果轻得多的「删除奖励」反而有确认，轻重倒挂。
+       * 这里用和打卡同款的撤销条（单例、8 秒），点撤销整笔退回，不留脏数据。
+       * 兑换奖励是自我契约里最开心的时刻，顺手撒一小把彩纸。 */
+      if (window.FX && FX.confetti) FX.confetti(45, { y: -12 });
+      U.vibrate(10);
+      offerUndoBar('已兑换 · ' + r.name + '（-' + r.cost + ' 分）', '撤销', () => {
+        Store.commit(s => { s.redemptions = s.redemptions.filter(x => x.id !== rec.id); });
+        UI.openRewards(); UI.render();
+        toast('已撤销，积分退回');
+      }, 8000);
     },
     async delreward(el) {
       const r = Store.s.rewards.find(x => x.id === el.dataset.id);
@@ -2601,6 +2615,27 @@
       const i = list.findIndex(x => x.id === id);
       const j = i + dir;
       if (i < 0 || j < 0 || j >= list.length) return;
+      const arr = list.slice();
+      arr.splice(j, 0, arr.splice(i, 1)[0]);
+      arr.forEach((x, k) => { x.sort = k; });
+      moved = true;
+    });
+    if (!moved) return;
+    UI.render();
+    U.vibrate(8);
+  }
+
+  /* v56：把习惯直接移到列表头/尾（排序菜单的直达项，省去一格一挪） */
+  function moveHabitTo(id, edge) {
+    let moved = false;
+    Store.commit(st => {
+      const list = (st.items || [])
+        .filter(x => !x.deleted && !x.archived)
+        .sort((a, b) => (a.sort || 0) - (b.sort || 0));
+      const i = list.findIndex(x => x.id === id);
+      if (i < 0 || list.length < 2) return;
+      const j = edge === 'top' ? 0 : list.length - 1;
+      if (i === j) return;
       const arr = list.slice();
       arr.splice(j, 0, arr.splice(i, 1)[0]);
       arr.forEach((x, k) => { x.sort = k; });

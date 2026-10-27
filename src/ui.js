@@ -4567,6 +4567,9 @@ window.UI = (function () {
       const at = list.findIndex(x => x.id === id);
       html += menuRow('↑', '上移一位', at <= 0 ? '已经是第一个了' : '排在「' + E((list[at - 1] || {}).name || '') + '」前面', 'moveup', id, at <= 0 ? ' style="opacity:.45"' : '');
       html += menuRow('↓', '下移一位', at >= list.length - 1 ? '已经是最后一个了' : '排在「' + E((list[at + 1] || {}).name || '') + '」后面', 'movedown', id, at >= list.length - 1 ? ' style="opacity:.45"' : '');
+      /* v56 · 交互走查：习惯多时一格一挪太费手指，补两个直达项（拖拽会和滑动手势打架，不做） */
+      html += menuRow('⏫', '移到最前', at <= 0 ? '已经是第一个了' : '排到今日页第一个做', 'movetop', id, at <= 0 ? ' style="opacity:.45"' : '');
+      html += menuRow('⏬', '移到最后', at >= list.length - 1 ? '已经是最后一个了' : '排到列表末尾', 'movebottom', id, at >= list.length - 1 ? ' style="opacity:.45"' : '');
       if (it.type === 'duration') {
         const running = window.Timer && Timer.isFor(it.id);
         html += menuRow(running ? ico('pause') : ico('play'), running ? '正在计时 · 点此继续' : '开始计时', '到点自动打卡，中途结束保留已计时间', 'timeropen', id);
