@@ -845,7 +845,9 @@ window.UI = (function () {
           title: Engine.items().length ? '今天没有安排的习惯' : '还没有习惯',
           sub: Engine.items().length ? '你的习惯还在，今天可以按自己的节奏休息。' : '从一个小到不可能失败的目标开始，坚持 7 天就能看到变化',
           actions: '<button class="btn" data-act="newhabit">＋ 添加第一个习惯</button>' +
-            '<button class="btn ghost" data-act="lib">从习惯库挑一个</button>',
+            '<button class="btn ghost" data-act="lib">从习惯库挑一个</button>' +
+            /* v61 · 走查：一句话创建是最顺滑的入口，但空态首页的人看不见它。给个直达。 */
+            (fresh ? '<button class="btn ghost" data-act="gosentence">⚡ 一句话创建</button>' : ''),
           footer: fresh ? '<button data-act="import">换了手机或清了缓存？从备份恢复</button>' : '',
           trust: true
         });
@@ -1703,7 +1705,9 @@ window.UI = (function () {
           title: '还没有习惯',
           sub: '先加一个，或者从下面习惯库里挑一个现成的',
           actions: '<button class="btn" data-act="newhabit">＋ 添加第一个习惯</button>' +
-            '<button class="btn ghost" data-act="lib">看看习惯库</button>',
+            '<button class="btn ghost" data-act="lib">看看习惯库</button>' +
+            /* v61 · 走查：空态时上面的「一句话快速创建」折叠块是收起的，点这里直接展开聚焦。 */
+            '<button class="btn ghost" data-act="gosentence">⚡ 一句话创建</button>',
           /* v53 · 报告 P3-15：同上，恢复入口降到页脚，不占主按钮列 */
           footer: '<button data-act="import">之前用过这个应用？从备份恢复</button>',
           trust: true

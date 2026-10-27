@@ -798,7 +798,29 @@
       if (!d) return;
       Feat.addItem(d);
       window._draft = null;
-      UI.render(); toast('已创建：' + d.name);
+      /* v61 · 新用户走查：确认后要有明确的「结束」——
+       * 若哪天这个预览被搬进 sheet，停在表单里会让人困惑「建完了吗」；
+       * 现在它长在习惯页折叠块里，closeSheet 是安全空操作，留作契约。 */
+      UI.closeSheet(); UI.render(); toast('已创建：' + d.name);
+    },
+    /* v61 · 新用户走查：最顺滑的建习惯入口（一句话）藏在习惯页折叠块里，
+     * 空态首页的人只能进 11 字段长表单。给空态一个直达：
+     * 跳到习惯页 → 展开带输入框的那个折叠块（class 与挑战块共用，按内容认）→ 聚焦。 */
+    gosentence() {
+      UI.go('habits');
+      requestAnimationFrame(function () {
+        const boxes = document.querySelectorAll('details.p-quick-create');
+        for (let i = 0; i < boxes.length; i++) {
+          if (!boxes[i].querySelector('#oneInput')) continue;
+          boxes[i].open = true;
+          break;
+        }
+        const inp = document.getElementById('oneInput');
+        if (inp) {
+          try { inp.scrollIntoView({ block: 'center' }); } catch (e) { }
+          inp.focus();
+        }
+      });
     },
     /* ---------- 首次进入引导 ---------- */
     /* v20：单选一个 —— 点到别的就换选，不再多选。首日只建 1 个习惯 */
