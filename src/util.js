@@ -7,8 +7,8 @@ window.U = (function () {
     pad,
     WEEK,
     /* 应用版本：交付 / 排障时唯一口径。改版本号时记得同步 sw.js 的 CACHE 常量。 */
-    VERSION: '56',
-    VERSION_NAME: '顺手就好',
+    VERSION: '57',
+    VERSION_NAME: '让它自己长',
     BUILD_DATE: '2026-10-22',
     // 本地日期 -> 'YYYY-MM-DD'
     ymd(d = new Date()) {

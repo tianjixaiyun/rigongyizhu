@@ -2936,7 +2936,7 @@ window.UI = (function () {
       '<div class="field"><label>颜色</label><div class="chips" id="fColor">' +
       pal.map(c => '<button aria-label="颜色 ' + E(c) + '" class="chip' + (c === (v.color || pal[0]) ? ' on' : '') + '" data-f="color" data-v="' + c + '" style="background:' + c + ';width:34px;height:34px;padding:0;border-radius:50%"></button>').join('') + '</div></div></details>' +
       '<div class="p-form-err" id="fErr" role="alert" hidden></div>' +
-      '<div class="row p-form-actions" style="margin-top:6px"><button class="btn block" id="fSave" data-act="savehabit" data-id="' + (v.id || '') + '"' + (v.id ? '' : ' disabled aria-disabled="true"') + '>保存习惯</button></div>' +
+      '<div class="row p-form-actions" style="margin-top:6px"><button class="btn block" id="fSave" data-act="savehabit" data-id="' + (v.id || '') + '"' + (v.id ? '' : ' disabled aria-disabled="true"') + '>' + (v.id ? '保存习惯' : '开始坚持它') + '</button></div>' +
       (v.id ? '<div class="row" style="margin-top:8px"><button class="btn block ghost" data-act="archivehabit" data-id="' + v.id + '">归档</button>' +
         '<button class="btn block ghost" data-act="delhabit" data-id="' + v.id + '" style="color:var(--danger)">删除</button></div>' : '')
     );
@@ -4295,7 +4295,12 @@ window.UI = (function () {
         : '按长期稳定性计算，漏一天不会归零') + '</div></div>' +
       '<div style="text-align:right"><div style="font-size:26px;font-weight:700;color:' + lv.color + '">' + dt.score + '</div>' +
       '<div class="muted">' + lv.txt + '</div></div></div>' +
-      '<div class="h-bar" style="margin-top:8px"><i style="width:' + dt.score + '%"></i></div></div>';
+      '<div class="h-bar" style="margin-top:8px"><i style="width:' + dt.score + '%"></i></div></div>' +
+      /* v57 · 细节审计（对标连击心理学「逐步撤出外部激励 / 行为迁移」）：
+       * 提醒维度 v50 的 maturity 已经做了（做得稳 → 提醒闭嘴）；这里是叙事的另一半 ——
+       * 到「牢固」后不再堆激励，改说「它已经是你的一部分」，把动力交还给用户自己。 */
+      (lv.txt === '牢固' ? '<div class="muted" style="font-size:12px;margin-top:8px;line-height:1.7">它已经长在生活里了 —— 到这一步，偶尔漏几天也撼不动它。接下来不用天天盯着，让它自己长。</div>' : '') +
+      (lv.txt === '稳住了' ? '<div class="muted" style="font-size:12px;margin-top:8px;line-height:1.7">已经稳住了 —— 到这一步，偶尔一次反复也撼不动它。警觉可以慢慢放下，习惯还在。</div>' : '');
 
     /* 戒断型：把四类日子数摆出来。口径写在脸上，用户才不用猜「我今天算成功还是失败」 */
     if (isAvoid && dt.avoid) {
