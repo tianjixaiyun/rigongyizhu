@@ -35,12 +35,17 @@ var qp=new URLSearchParams(location.search).get('theme');if(qp)t=qp;
 if(t==='system')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
 if(t!=='dark')t='light';
 document.documentElement.setAttribute('data-theme',t);
+/* v58：主题色首帧镜像（applyAccent 每次都写回 rgz.accent，值不是 key，这里不用带表） */
+try{var a=JSON.parse(localStorage.getItem('rgz.accent')||'null');
+if(a&&a.l&&a.d){var rs=document.documentElement.style;
+rs.setProperty('--accent',t==='dark'?a.d[0]:a.l[0]);
+rs.setProperty('--accent-soft',t==='dark'?a.d[1]:a.l[1]);}}catch(e){}
 var m=document.querySelector('meta[name="theme-color"]');
 if(m)m.setAttribute('content',t==='dark'?'#12141c':'#f6f7fb');
 }catch(e){}})();
 </script>
-<link rel="stylesheet" href="assets/app.css?v=57">
-<link rel="stylesheet" href="assets/product.css?v=57">
+<link rel="stylesheet" href="assets/app.css?v=58">
+<link rel="stylesheet" href="assets/product.css?v=58">
 <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
 <!-- iOS Safari 不认 SVG 的 apple-touch-icon，单独给一张 180×180 的 PNG（tools/mkicon.cjs 生成）。
      不写圆角、不留透明：iOS 会自己套圆角遮罩，铺底之后四角也是图标自己的颜色。 -->
@@ -162,40 +167,40 @@ if(m)m.setAttribute('content',t==='dark'?'#12141c':'#f6f7fb');
 })();
 </script>
 <!-- cloud-sdk.js 62KB 与首屏无关，改为首次用云功能时按需加载（见 src/cloud-v18.js loadSdk） -->
-<script defer src="src/util.js?v=57"></script>
-<script defer src="src/errlog.js?v=57"></script>
-<script defer src="src/sync-model.js?v=57"></script>
-<script defer src="src/cloud-v18.js?v=57"></script>
-<script defer src="src/webdav.js?v=57"></script>
-<script defer src="src/enc.js?v=57"></script>
-<script defer src="src/store.js?v=57"></script>
-<script defer src="src/engine.js?v=57"></script>
-<script defer src="src/parse.js?v=57"></script>
-<script defer src="src/features.js?v=57"></script>
-<script defer src="src/todo.js?v=57"></script>
-<script defer src="src/challenge.js?v=57"></script>
-<script defer src="src/timer.js?v=57"></script>
-<script defer src="src/plugins.js?v=57"></script>
-<script defer src="src/extra.js?v=57"></script>
-<script defer src="src/rooms.js?v=57"></script>
-<script defer src="src/buddy.js?v=57"></script>
-<script defer src="src/lock.js?v=57"></script>
-<script defer src="src/health.js?v=57"></script>
-<script defer src="src/fx.js?v=57"></script>
-<script defer src="src/ux.js?v=57"></script>
-<script defer src="src/remind.js?v=57"></script>
-<script defer src="src/insights.js?v=57"></script>
-<script defer src="src/ics.js?v=57"></script>
-<script defer src="src/paper.js?v=57"></script>
-<script defer src="src/plus.js?v=57"></script>
-<script defer src="src/diary.js?v=57"></script>
-<script defer src="src/level.js?v=57"></script>
-<script defer src="src/safety.js?v=57"></script>
-<script defer src="src/decor.js?v=57"></script>
-<script defer src="src/chart.js?v=57"></script>
-<script defer src="src/product.js?v=57"></script>
-<script defer src="src/ui.js?v=57"></script>
-<script defer src="src/friends-v19.js?v=57"></script>
-<script defer src="src/main.js?v=57"></script>
+<script defer src="src/util.js?v=58"></script>
+<script defer src="src/errlog.js?v=58"></script>
+<script defer src="src/sync-model.js?v=58"></script>
+<script defer src="src/cloud-v18.js?v=58"></script>
+<script defer src="src/webdav.js?v=58"></script>
+<script defer src="src/enc.js?v=58"></script>
+<script defer src="src/store.js?v=58"></script>
+<script defer src="src/engine.js?v=58"></script>
+<script defer src="src/parse.js?v=58"></script>
+<script defer src="src/features.js?v=58"></script>
+<script defer src="src/todo.js?v=58"></script>
+<script defer src="src/challenge.js?v=58"></script>
+<script defer src="src/timer.js?v=58"></script>
+<script defer src="src/plugins.js?v=58"></script>
+<script defer src="src/extra.js?v=58"></script>
+<script defer src="src/rooms.js?v=58"></script>
+<script defer src="src/buddy.js?v=58"></script>
+<script defer src="src/lock.js?v=58"></script>
+<script defer src="src/health.js?v=58"></script>
+<script defer src="src/fx.js?v=58"></script>
+<script defer src="src/ux.js?v=58"></script>
+<script defer src="src/remind.js?v=58"></script>
+<script defer src="src/insights.js?v=58"></script>
+<script defer src="src/ics.js?v=58"></script>
+<script defer src="src/paper.js?v=58"></script>
+<script defer src="src/plus.js?v=58"></script>
+<script defer src="src/diary.js?v=58"></script>
+<script defer src="src/level.js?v=58"></script>
+<script defer src="src/safety.js?v=58"></script>
+<script defer src="src/decor.js?v=58"></script>
+<script defer src="src/chart.js?v=58"></script>
+<script defer src="src/product.js?v=58"></script>
+<script defer src="src/ui.js?v=58"></script>
+<script defer src="src/friends-v19.js?v=58"></script>
+<script defer src="src/main.js?v=58"></script>
 </body>
 </html>

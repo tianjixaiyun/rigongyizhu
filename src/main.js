@@ -28,6 +28,30 @@
   });
 
   /* ---------- 主题 ---------- */
+  /* v58 · 商业软件对标（Streaks 78 主题的唯一克制版回应）：8 个精选主题色。
+   * 每组 [浅色accent, 浅色soft, 深色accent, 深色soft]；只换强调色，不动画背景不换图标 ——
+   * 个性化但不失控。首帧镜像走 rgz.accent（存值不存 key，内联脚本不用再带一份表）。 */
+  const ACCENTS = {
+    indigo: { name: '靛蓝', v: ['#3c5bcc', '#eaeefe', '#8ba4ff', '#252a3f'] },
+    teal:   { name: '青碧', v: ['#0e8f7e', '#e0f4ef', '#6fd0be', '#1e3a36'] },
+    green:  { name: '松林', v: ['#3f8b52', '#e4f2e6', '#82d498', '#233928'] },
+    amber:  { name: '琥珀', v: ['#a8741c', '#f6eedb', '#e6c26e', '#3a3120'] },
+    clay:   { name: '陶土', v: ['#c05f3e', '#f8e9e2', '#eda184', '#3f2a23'] },
+    rose:   { name: '绯红', v: ['#b84a68', '#f8e5eb', '#ef95ad', '#3e2530'] },
+    violet: { name: '黛紫', v: ['#7a4ebd', '#efeafa', '#c29ff2', '#312845'] },
+    slate:  { name: '石墨', v: ['#59636f', '#ebeef0', '#a6afb9', '#2b2f36'] }
+  };
+  function applyAccent() {
+    const key = (Store.s.settings && Store.s.settings.accentKey) || 'indigo';
+    const a = ACCENTS[key] || ACCENTS.indigo;
+    try { localStorage.setItem('rgz.accent', JSON.stringify({ l: [a.v[0], a.v[1]], d: [a.v[2], a.v[3]] })); } catch (e) { }
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const rs = document.documentElement.style;
+    rs.setProperty('--accent', dark ? a.v[2] : a.v[0]);
+    rs.setProperty('--accent-soft', dark ? a.v[3] : a.v[1]);
+  }
+  /* 供设置页渲染色板（UI 与 main 同 IIFE 域之外，走 window；u.js 侧有守卫） */
+  window.__ACCENTS__ = Object.keys(ACCENTS).map(k => ({ key: k, name: ACCENTS[k].name, dot: ACCENTS[k].v[0] }));
   function applyTheme() {
     let t = Store.s.settings.theme || 'system';
     try {
@@ -47,6 +71,7 @@
     if (meta) meta.setAttribute('content', v === 'dark' ? '#12141c' : '#f6f7fb');
     syncThemeIco(v);
     applyA11y();
+    applyAccent();
   }
   /* v20 · 无障碍进阶：色盲友好模式 + 字号缩放。
    * 只往 <html> 上写 data-cb / data-fs，具体色板和放大在 app.css 里，
@@ -1235,6 +1260,15 @@
       Store.commit(s => { s.settings.theme = cur ? 'light' : 'dark'; });
       applyTheme(); UI.render();
       toast(cur ? '已切换到浅色 ☀️' : '已切换到深色 🌙');
+    },
+    /* v58：主题色（8 色精选，ACCENTS 表在 applyTheme 旁）。点完即时生效并落盘。 */
+    setaccent(el) {
+      const k = el.dataset.v;
+      if (!ACCENTS[k]) return;
+      Store.commit(s => { s.settings.accentKey = k; });
+      applyTheme();
+      UX.sfx('tap');
+      toast('主题色：' + ACCENTS[k].name);
     },
     toggleremind() {
       const cur = Store.s.settings.remindEnabled;

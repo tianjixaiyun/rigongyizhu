@@ -2288,6 +2288,15 @@ window.UI = (function () {
     const rmDiary = (window.Remind && Remind.diaryCfg()) || { on: true, at: '22:30' };
     const rmWeek = (window.Remind && Remind.weekCfg()) || { on: true, at: '20:30', wd: 0 };
     let html = '<div class="card">' +
+      /* v58 · 商业软件对标（Streaks 78 主题的克制版）：8 个精选主题色。
+       * 放设置页第一项 —— 外观是「我的」里最常被翻出来玩的。 */
+      '<div class="field"><label>主题色</label><div class="chips" id="fAccent">' +
+      (window.__ACCENTS__ || []).map(function (a) {
+        return '<button class="chip' + ((st.settings.accentKey || 'indigo') === a.key ? ' on' : '') +
+          '" data-act="setaccent" data-v="' + a.key + '" aria-label="主题色 ' + a.name +
+          '" style="background:' + a.dot + ';width:34px;height:34px;padding:0;border-radius:50%"></button>';
+      }).join('') + '</div>' +
+      '<div class="s" style="margin-top:6px">整个应用的按钮、进度环、高亮都跟着换</div></div>' +
       /* v20 · 无障碍进阶：字号缩放 + 色盲友好模式。色盲友好的取舍见 assets/app.css：
        * 只换色相（红绿→蓝橙），深浅、图案、文字全保留，信息量不减。 */
       '<div class="field"><label>字号</label><div class="chips">' +
