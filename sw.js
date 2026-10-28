@@ -17,25 +17,27 @@
  *      空态恢复入口降为页脚文字链 / 状态条按钮终于点得动）。
  * v54：少即是多（「我的」页收成 3 个分组 / 首屏拆包：日记·回顾·社交·积分
  *      拆成 4 个按需 chunk，core 首屏跑完空闲时再拉，离线清单里照常预缓存）。
+ * v62：细节顺一点（按钮不再断字 / 模板包不再裁字 / 深色层次拉开 /
+ *      窄屏计数器不被压扁 / 「更多功能」补齐 8 个工具）。
  */
-const VERSION = 'rigongyizhu-standalone-61';
+const VERSION = 'rigongyizhu-standalone-62';
 const CORE = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './assets/app.css?v=61',
-  './assets/product.css?v=61',
+  './assets/app.css?v=62',
+  './assets/product.css?v=62',
   './assets/icons.svg',
   './assets/icon.svg',
   './assets/icon-192.png',
   './assets/icon-512.png',
   './assets/apple-touch-icon.png',
-  './src/app.bundle.js?v=61',
-  './src/chunk-diary.js?v=61',
-  './src/chunk-grow.js?v=61',
-  './src/chunk-social.js?v=61',
-  './src/chunk-plus.js?v=61',
-  './vendor/cloud-sdk.js?v=61',
+  './src/app.bundle.js?v=62',
+  './src/chunk-diary.js?v=62',
+  './src/chunk-grow.js?v=62',
+  './src/chunk-social.js?v=62',
+  './src/chunk-plus.js?v=62',
+  './vendor/cloud-sdk.js?v=62',
 ];
 
 self.addEventListener('install', (event) => {
